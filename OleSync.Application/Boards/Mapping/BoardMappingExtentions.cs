@@ -1,0 +1,63 @@
+﻿using OleSync.Application.Boards.Dtos;
+using OleSync.Domain.Boards.Core.Entities;
+using OleSync.Domain.Boards.Core.ValueObjects;
+
+namespace OleSync.Application.Boards.Mapping
+{
+    public static class BoardMappingExtentions
+    {
+        public static Board ToDomainEntity(this CreateOrUpdateBoardDto boardDto)
+        {
+            ArgumentNullException.ThrowIfNull(boardDto);
+
+            var auditInfoDto = boardDto.Audit?.ToValueObjectOnCreate() ?? AuditInfo.CreateEmpty();
+
+            return Board.Create(
+                boardDto.Name,
+                boardDto.Purpose,
+                boardDto.BoardType,
+                boardDto.StartDate,
+                boardDto.EndDate,
+                boardDto.Status,
+                auditInfoDto
+            );
+        }
+
+        public static void UpdateFromDto(this Board board, CreateOrUpdateBoardDto boardDto, long modifiedBy)
+        {
+            ArgumentNullException.ThrowIfNull(board);
+
+            ArgumentNullException.ThrowIfNull(boardDto);
+
+            board.Update(
+                boardDto.Name,
+                boardDto.Purpose,
+                boardDto.BoardType,
+                boardDto.StartDate,
+                boardDto.EndDate,
+                boardDto.Status,
+                modifiedBy
+            );
+        }
+
+        public static BoardListDto ToListDto(this Board board)
+        {
+            return new BoardListDto
+            {
+                Id = board.Id,
+                Name = board.Name,
+                Purpose = board.Purpose,
+                BoardType = board.BoardType,
+                StartDate = board.StartDate,
+                EndDate = board.EndDate,
+                Status = board.Status,
+                CreatedBy = board.Audit.CreatedBy,
+                CreatedAt = board.Audit.CreatedAt,
+                ModifiedBy = board.Audit.ModifiedBy,
+                ModifiedAt = board.Audit.ModifiedAt,
+                DeletedBy = board.Audit.DeletedBy,
+                DeletedAt = board.Audit.DeletedAt
+            };
+        }
+    }
+}
