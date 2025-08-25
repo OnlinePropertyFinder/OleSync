@@ -1,6 +1,7 @@
 using OleSync.Application.Boards.Dtos;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Core.ValueObjects;
+using OleSync.Application.Utilities;
 
 namespace OleSync.Application.Boards.Mapping
 {
@@ -51,6 +52,7 @@ namespace OleSync.Application.Boards.Mapping
                 StartDate = board.StartDate,
                 EndDate = board.EndDate,
                 Status = board.Status,
+                StatusDescription = board.Status.GetDescription(),
                 CreatedBy = board.Audit.CreatedBy,
                 CreatedAt = board.Audit.CreatedAt,
                 ModifiedBy = board.Audit.ModifiedBy,

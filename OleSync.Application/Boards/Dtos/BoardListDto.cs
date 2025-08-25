@@ -1,4 +1,4 @@
-﻿using OleSync.Domain.Shared.Enums;
+using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Boards.Dtos
 {
@@ -11,6 +11,7 @@ namespace OleSync.Application.Boards.Dtos
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public Status Status { get; set; }
+        public string StatusDescription { get; set; } = null!;
         public long CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public long? ModifiedBy { get; set; }
