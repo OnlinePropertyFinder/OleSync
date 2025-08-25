@@ -1,4 +1,4 @@
-﻿using OleSync.Domain.Boards.Core.Entities;
+using OleSync.Domain.Boards.Core.Entities;
 using System.Linq.Expressions;
 
 namespace OleSync.Domain.Boards.Repositories
@@ -12,5 +12,10 @@ namespace OleSync.Domain.Boards.Repositories
         Task<IEnumerable<Board>> FilterByAsync(Expression<Func<Board, bool>> filter);
         IQueryable<Board> FilterBy(Expression<Func<Board, bool>> filter);
         Task DeleteAsync(int id, long userId);
+
+        // Board Members
+        Task<Board?> GetWithMembersAsync(int id);
+        Task AddMemberAsync(BoardMember member);
+        Task SoftDeleteMemberAsync(int memberId, long userId);
     }
 }

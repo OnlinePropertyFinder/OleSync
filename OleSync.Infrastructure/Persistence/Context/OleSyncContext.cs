@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Shared.Enums;
 
@@ -12,6 +12,7 @@ namespace OleSync.Infrastructure.Persistence.Context
             : base(options) { }
 
         public virtual DbSet<Board> Boards { get; set; }
+        public virtual DbSet<BoardMember> BoardMembers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -77,6 +78,39 @@ namespace OleSync.Infrastructure.Persistence.Context
                     audit.Property(a => a.DeletedAt)
                         .HasColumnType("datetime")
                         .HasColumnName("DeletedAt");
+                });
+
+                entity.HasMany(e => e.Members)
+                      .WithOne(m => m.Board)
+                      .HasForeignKey(m => m.BoardId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<BoardMember>(entity =>
+            {
+                entity.ToTable("BoardMembers");
+
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.MemberType).IsRequired();
+                entity.Property(e => e.FullName).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
+                entity.Property(e => e.Phone).HasMaxLength(50);
+
+                entity.HasIndex(e => new { e.BoardId, e.EmployeeId, e.GuestId });
+
+                entity.HasQueryFilter(m => !m.Audit.IsDeleted);
+
+                entity.OwnsOne(e => e.Audit, audit =>
+                {
+                    audit.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
+                    audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
+                    audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
+                    audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
+                    audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+                    audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
+                    audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
                 });
             });
 

@@ -1,6 +1,7 @@
-﻿using OleSync.Application.Boards.Dtos;
+using OleSync.Application.Boards.Dtos;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Core.ValueObjects;
+using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Boards.Mapping
 {
@@ -57,6 +58,41 @@ namespace OleSync.Application.Boards.Mapping
                 ModifiedAt = board.Audit.ModifiedAt,
                 DeletedBy = board.Audit.DeletedBy,
                 DeletedAt = board.Audit.DeletedAt
+            };
+        }
+
+        public static BoardMember ToDomainEntity(this AddBoardMemberDto dto)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            var auditInfoDto = dto.Audit?.ToValueObjectOnCreate() ?? AuditInfo.CreateEmpty();
+            return BoardMember.Create(
+                dto.BoardId,
+                dto.MemberType,
+                dto.FullName,
+                dto.Email,
+                dto.Phone,
+                dto.EmployeeId,
+                dto.GuestId,
+                auditInfoDto
+            );
+        }
+
+        public static BoardMemberListDto ToListDto(this BoardMember member)
+        {
+            return new BoardMemberListDto
+            {
+                Id = member.Id,
+                MemberType = member.MemberType,
+                EmployeeId = member.EmployeeId,
+                GuestId = member.GuestId,
+                FullName = member.FullName,
+                Email = member.Email,
+                Phone = member.Phone,
+                CreatedBy = member.Audit.CreatedBy,
+                CreatedAt = member.Audit.CreatedAt,
+                ModifiedBy = member.Audit.ModifiedBy,
+                ModifiedAt = member.Audit.ModifiedAt
             };
         }
     }

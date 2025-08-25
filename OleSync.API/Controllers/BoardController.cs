@@ -17,9 +17,11 @@ namespace OleSync.API.Controllers
     {
         private readonly IValidator<CreateOrUpdateBoardDto> _validator;
         private readonly IMediator _mediator;
-        public BoardController(IValidator<CreateOrUpdateBoardDto> validator, IMediator mediator)
+        private readonly IValidator<AddBoardMemberDto> _memberValidator;
+        public BoardController(IValidator<CreateOrUpdateBoardDto> validator, IValidator<AddBoardMemberDto> memberValidator, IMediator mediator)
         {
             _validator = validator;
+            _memberValidator = memberValidator;
             _mediator = mediator;
         }
 
@@ -157,6 +159,39 @@ namespace OleSync.API.Controllers
             catch (Exception ex)
             {
                 return new WebResponse<Board>($"An error occurred while retrieving the board: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPost("{boardId}/members")]
+        public async Task<IActionResult> AddMember(int boardId, [FromBody] AddBoardMemberDto memberDto)
+        {
+            try
+            {
+                if (memberDto == null)
+                {
+                    return new WebResponse<int>("Invalid member data.", HttpStatusCode.BadRequest);
+                }
+
+                memberDto.BoardId = boardId;
+                var validationResult = await _memberValidator.ValidateAsync(memberDto);
+                if (!validationResult.IsValid)
+                {
+                    var errorMessages = string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage));
+                    return new WebResponse<int>($"Validation failed: {errorMessages}", HttpStatusCode.BadRequest);
+                }
+
+                var request = new AddBoardMemberCommandRequest { Member = memberDto };
+                var result = await _mediator.Send(request);
+                if (result == 0)
+                {
+                    return new WebResponse<int>("Failed to add member.", HttpStatusCode.InternalServerError);
+                }
+
+                return new WebResponse<int>(result);
+            }
+            catch (Exception ex)
+            {
+                return new WebResponse<int>($"An error occurred while adding the member : {ex.Message}", HttpStatusCode.InternalServerError);
             }
         }
     }

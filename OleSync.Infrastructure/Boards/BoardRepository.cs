@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Repositories;
@@ -82,6 +82,32 @@ namespace OleSync.Infrastructure.Boards
             ArgumentNullException.ThrowIfNull(board);
 
             _context.Boards.Update(board);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Board?> GetWithMembersAsync(int id)
+        {
+            var board = await _context.Boards
+                .Include(b => b.Members)
+                .FirstOrDefaultAsync(b => b.Id == id);
+            return board;
+        }
+
+        public async Task AddMemberAsync(BoardMember member)
+        {
+            ArgumentNullException.ThrowIfNull(member);
+
+            _context.BoardMembers.Add(member);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SoftDeleteMemberAsync(int memberId, long userId)
+        {
+            var member = await _context.BoardMembers.FirstOrDefaultAsync(m => m.Id == memberId);
+            if (member == null)
+                return;
+            member.MarkAsDeleted(userId);
+            _context.BoardMembers.Update(member);
             await _context.SaveChangesAsync();
         }
     }

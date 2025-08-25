@@ -1,4 +1,4 @@
-﻿using OleSync.Domain.Boards.Core.ValueObjects;
+using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Domain.Boards.Core.Entities
@@ -13,6 +13,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public DateTime? EndDate { get; private set; }
         public Status Status { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
+        public ICollection<BoardMember> Members { get; private set; } = new List<BoardMember>();
 
         public static Board Create(
             string name,
@@ -84,8 +85,31 @@ namespace OleSync.Domain.Boards.Core.Entities
                 StartDate = startDate,
                 EndDate = endDate,
                 Status = status,
-                Audit = auditInfo
+                Audit = auditInfo,
+                Members = new List<BoardMember>()
             };
+        }
+
+        public BoardMember AddMember(
+            BoardMemberType memberType,
+            string fullName,
+            string? email,
+            string? phone,
+            int? employeeId,
+            int? guestId,
+            AuditInfo audit)
+        {
+            var member = BoardMember.Create(Id, memberType, fullName, email, phone, employeeId, guestId, audit);
+            Members.Add(member);
+            return member;
+        }
+
+        public void RemoveMember(int memberId, long deletedBy)
+        {
+            var member = Members.FirstOrDefault(m => m.Id == memberId);
+            if (member == null)
+                return;
+            member.MarkAsDeleted(deletedBy);
         }
     }
 }
