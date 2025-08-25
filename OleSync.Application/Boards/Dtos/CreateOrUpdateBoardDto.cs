@@ -14,6 +14,6 @@ namespace OleSync.Application.Boards.Dtos
         public AuditInfoDto? Audit { get; } = null!;
 
         // New: Members to create along with board
-        public List<UpsertBoardMemberDto>? Members { get; set; }
+        public List<CreateBoardMemberDto>? Members { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace OleSync.Domain.People.Core.Entities
         public string Email { get; private set; } = null!;
         public string Phone { get; private set; } = null!;
         public string? Position { get; private set; } = null!;
-        public Role Role { get; private set; }
+        public MemberRole Role { get; private set; }
         public MemberType MemberType { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
 
@@ -19,7 +19,7 @@ namespace OleSync.Domain.People.Core.Entities
             string email,
             string phone,
             string? position,
-            Role role,
+            MemberRole role,
             MemberType memberType,
             AuditInfo audit)
         {
@@ -43,7 +43,7 @@ namespace OleSync.Domain.People.Core.Entities
             string email,
             string phone,
             string? position,
-            Role role,
+            MemberRole role,
             long modifiedBy)
         {
             FullName = fullName;
@@ -65,7 +65,7 @@ namespace OleSync.Domain.People.Core.Entities
             string email,
             string phone,
             string? position,
-            Role role,
+            MemberRole role,
             MemberType memberType,
             AuditInfo audit)
         {

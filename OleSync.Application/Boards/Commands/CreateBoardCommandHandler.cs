@@ -44,7 +44,7 @@ namespace OleSync.Application.Boards.Commands
                             memberDto.Email ?? string.Empty,
                             memberDto.Phone ?? string.Empty,
                             position: null,
-                            role: Role.Member,
+                            role: MemberRole.Member,
                             memberType: memberDto.MemberType,
                             audit: audit);
 
