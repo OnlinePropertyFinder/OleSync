@@ -90,9 +90,24 @@ namespace OleSync.Infrastructure.Persistence.Context
                       .OnDelete(DeleteBehavior.Cascade);
 
                 entity.HasMany(e => e.Committees)
-                      .WithOne(c => c.Board)
-                      .HasForeignKey(c => c.BoardId)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .WithMany(c => c.Boards)
+                      .UsingEntity<Dictionary<string, object>>(
+                          "BoardCommittees",
+                          j => j
+                              .HasOne<Committee>()
+                              .WithMany()
+                              .HasForeignKey("CommitteeId")
+                              .OnDelete(DeleteBehavior.Cascade),
+                          j => j
+                              .HasOne<Board>()
+                              .WithMany()
+                              .HasForeignKey("BoardId")
+                              .OnDelete(DeleteBehavior.Cascade),
+                          j =>
+                          {
+                              j.ToTable("BoardCommittees");
+                              j.HasKey("BoardId", "CommitteeId");
+                          });
             });
 
             modelBuilder.Entity<BoardMember>(entity =>
@@ -180,7 +195,6 @@ namespace OleSync.Infrastructure.Persistence.Context
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
-                entity.Property(e => e.BoardId).IsRequired();
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.Description).HasMaxLength(500);
 
