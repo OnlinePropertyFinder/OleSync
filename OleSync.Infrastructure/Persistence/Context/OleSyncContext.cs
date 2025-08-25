@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Shared.Enums;
 using OleSync.Domain.People.Core.Entities;
+using OleSync.Domain.Boards.Core.ValueObjects;
 
 namespace OleSync.Infrastructure.Persistence.Context
 {
