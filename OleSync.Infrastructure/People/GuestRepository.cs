@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OleSync.Domain.People.Core.Entities;
 using OleSync.Domain.People.Repositories;
@@ -39,5 +39,11 @@ namespace OleSync.Infrastructure.People
             return Guests;
         }
 
+        public async Task AddAsync(Guest guest)
+        {
+            ArgumentNullException.ThrowIfNull(guest);
+            _context.Guests.Add(guest);
+            await _context.SaveChangesAsync();
+        }
     }
 }

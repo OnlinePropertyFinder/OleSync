@@ -89,6 +89,7 @@ namespace OleSync.Infrastructure.Boards
         {
             var board = await _context.Boards
                 .Include(b => b.Members)
+                .Include(b => b.Committees)
                 .FirstOrDefaultAsync(b => b.Id == id);
             return board;
         }

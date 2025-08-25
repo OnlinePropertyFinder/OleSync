@@ -2,6 +2,18 @@ using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Boards.Dtos
 {
+    public class UpsertBoardMemberDto
+    {
+        public MemberType MemberType { get; set; }
+        // link existing
+        public int? EmployeeId { get; set; }
+        public int? GuestId { get; set; }
+        // or create new guest
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
+    }
+
     public class AddBoardMemberDto
     {
         public int BoardId { get; set; }
