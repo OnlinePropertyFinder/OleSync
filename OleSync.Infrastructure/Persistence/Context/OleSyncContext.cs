@@ -115,7 +115,6 @@ namespace OleSync.Infrastructure.Persistence.Context
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.MemberType).IsRequired();
-                // Removed denormalized fields; rely on Employee/Guest
 
                 entity.HasIndex(e => new { e.BoardId, e.EmployeeId, e.GuestId });
 
@@ -167,9 +166,9 @@ namespace OleSync.Infrastructure.Persistence.Context
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.FullName).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Email).HasMaxLength(255);
-                entity.Property(e => e.Phone).HasMaxLength(50);
-                entity.Property(e => e.Position).IsRequired();
+                entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Phone).IsRequired().HasMaxLength(50);
+                entity.Property(e => e.Position).HasMaxLength(100);
                 entity.Property(e => e.Role).IsRequired();
                 entity.Property(e => e.MemberType).IsRequired();
 
@@ -192,7 +191,7 @@ namespace OleSync.Infrastructure.Persistence.Context
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.Purpose).HasMaxLength(500);
 
                 entity.OwnsOne(e => e.Audit, audit =>
                 {
