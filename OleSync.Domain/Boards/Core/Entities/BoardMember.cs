@@ -8,7 +8,7 @@ namespace OleSync.Domain.Boards.Core.Entities
     {
         public int Id { get; private set; }
         public int BoardId { get; private set; }
-        public BoardMemberType MemberType { get; private set; }
+        public MemberType MemberType { get; private set; }
 
         // One of the following identifiers may be set depending on source
         public int? EmployeeId { get; private set; }
@@ -24,7 +24,7 @@ namespace OleSync.Domain.Boards.Core.Entities
 
         public static BoardMember Create(
             int boardId,
-            BoardMemberType memberType,
+            MemberType memberType,
             int? employeeId,
             int? guestId,
             AuditInfo audit)
@@ -46,7 +46,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         }
 
         public void Update(
-            BoardMemberType memberType,
+            MemberType memberType,
             int? employeeId,
             int? guestId,
             long modifiedBy)
@@ -65,7 +65,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public static BoardMember Rehydrate(
             int id,
             int boardId,
-            BoardMemberType memberType,
+            MemberType memberType,
             int? employeeId,
             int? guestId,
             AuditInfo audit)

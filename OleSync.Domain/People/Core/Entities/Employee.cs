@@ -7,21 +7,20 @@ namespace OleSync.Domain.People.Core.Entities
     {
         public int Id { get; private set; }
         public string FullName { get; private set; } = null!;
-        public string? Email { get; private set; }
-        public string? Phone { get; private set; }
-
-        public Position Position { get; private set; }
+        public string Email { get; private set; } = null!;
+        public string Phone { get; private set; } = null!;
+        public string? Position { get; private set; } = null!;
         public Role Role { get; private set; }
-        public MemberType MemberType { get; private set; } = MemberType.Employee;
-
+        public MemberType MemberType { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
 
         public static Employee Create(
             string fullName,
-            string? email,
-            string? phone,
-            Position position,
+            string email,
+            string phone,
+            string? position,
             Role role,
+            MemberType memberType,
             AuditInfo audit)
         {
             if (string.IsNullOrWhiteSpace(fullName))
@@ -34,16 +33,16 @@ namespace OleSync.Domain.People.Core.Entities
                 Phone = phone,
                 Position = position,
                 Role = role,
-                MemberType = MemberType.Employee,
+                MemberType = memberType,
                 Audit = audit.CreateOnAdd(1)
             };
         }
 
         public void Update(
             string fullName,
-            string? email,
-            string? phone,
-            Position position,
+            string email,
+            string phone,
+            string? position,
             Role role,
             long modifiedBy)
         {
@@ -63,10 +62,11 @@ namespace OleSync.Domain.People.Core.Entities
         public static Employee Rehydrate(
             int id,
             string fullName,
-            string? email,
-            string? phone,
-            Position position,
+            string email,
+            string phone,
+            string? position,
             Role role,
+            MemberType memberType,
             AuditInfo audit)
         {
             return new Employee
@@ -77,7 +77,7 @@ namespace OleSync.Domain.People.Core.Entities
                 Phone = phone,
                 Position = position,
                 Role = role,
-                MemberType = MemberType.Employee,
+                MemberType = memberType,
                 Audit = audit
             };
         }

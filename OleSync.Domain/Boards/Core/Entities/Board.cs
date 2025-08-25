@@ -93,7 +93,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         }
 
         public BoardMember AddMember(
-            BoardMemberType memberType,
+            MemberType memberType,
             int? employeeId,
             int? guestId,
             AuditInfo audit)

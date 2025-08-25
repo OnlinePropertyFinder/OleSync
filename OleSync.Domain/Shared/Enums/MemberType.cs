@@ -1,14 +1,20 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace OleSync.Domain.Shared.Enums
 {
-    // Person classification for Board membership source
     public enum MemberType
     {
-        [Description("موظف")]
-        Employee = 1,
-        [Description("ضيف")]
-        Guest = 2
+        [Description("رئيس المجلس")]
+        Chairman = 1,
+        [Description("نائب الرئيس")]
+        ViceChairman = 2,
+        [Description("عضو تنفيذي")]
+        ExecutiveDirector = 3,
+        [Description("عضو غير تنفيذي")]
+        NonExecutiveDirector = 4,
+        [Description("عضو مستقل")]
+        IndependentDirector = 5,
+        [Description("أمين المجلس")]
+        Secretary = 6
     }
 }
-

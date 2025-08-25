@@ -87,7 +87,7 @@ namespace OleSync.API.Controllers
         }
 
         [HttpPost("All")]
-        public async Task<WebResponse<PaginatedResult<BoardListDto>>> GetPagenatedBoard(GetPaginatedBoardsCriteria criteria)
+        public async Task<WebResponse<PaginatedResult<BoardListDto>>> GetPaginatedBoard(GetPaginatedBoardsCriteria criteria)
         {
             try
             {

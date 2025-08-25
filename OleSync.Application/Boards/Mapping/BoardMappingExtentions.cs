@@ -1,7 +1,6 @@
 using OleSync.Application.Boards.Dtos;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Core.ValueObjects;
-using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Boards.Mapping
 {
