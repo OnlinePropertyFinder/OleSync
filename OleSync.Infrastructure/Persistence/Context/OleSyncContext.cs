@@ -13,6 +13,9 @@ namespace OleSync.Infrastructure.Persistence.Context
 
         public virtual DbSet<Board> Boards { get; set; }
         public virtual DbSet<BoardMember> BoardMembers { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Guest> Guests { get; set; }
+        public virtual DbSet<Committee> Committees { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -84,6 +87,11 @@ namespace OleSync.Infrastructure.Persistence.Context
                       .WithOne(m => m.Board)
                       .HasForeignKey(m => m.BoardId)
                       .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasMany<Committee>()
+                      .WithOne(c => c.Board)
+                      .HasForeignKey(c => c.BoardId)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<BoardMember>(entity =>
@@ -92,11 +100,6 @@ namespace OleSync.Infrastructure.Persistence.Context
 
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.MemberType).IsRequired();
-                entity.Property(e => e.FullName).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Email).HasMaxLength(255);
-                entity.Property(e => e.Phone).HasMaxLength(50);
 
                 entity.HasIndex(e => new { e.BoardId, e.EmployeeId, e.GuestId });
 
@@ -112,6 +115,78 @@ namespace OleSync.Infrastructure.Persistence.Context
                     audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
                     audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
                 });
+            });
+
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.ToTable("Employees");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.FullName).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
+                entity.Property(e => e.Phone).HasMaxLength(50);
+                entity.Property(e => e.Position).IsRequired();
+                entity.Property(e => e.MemberType).IsRequired();
+                entity.Property(e => e.Role).IsRequired();
+                entity.HasIndex(e => new { e.Email });
+                entity.OwnsOne(e => e.Audit, audit =>
+                {
+                    audit.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
+                    audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
+                    audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
+                    audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
+                    audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+                    audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
+                    audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
+                });
+                entity.HasQueryFilter(e => !e.Audit.IsDeleted);
+            });
+
+            modelBuilder.Entity<Guest>(entity =>
+            {
+                entity.ToTable("Guests");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.FullName).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
+                entity.Property(e => e.Phone).HasMaxLength(50);
+                entity.Property(e => e.Position).IsRequired();
+                entity.Property(e => e.MemberType).IsRequired();
+                entity.Property(e => e.Role).IsRequired();
+                entity.HasIndex(e => new { e.Email });
+                entity.OwnsOne(e => e.Audit, audit =>
+                {
+                    audit.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
+                    audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
+                    audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
+                    audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
+                    audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+                    audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
+                    audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
+                });
+                entity.HasQueryFilter(e => !e.Audit.IsDeleted);
+            });
+
+            modelBuilder.Entity<Committee>(entity =>
+            {
+                entity.ToTable("Committees");
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.OwnsOne(e => e.Audit, audit =>
+                {
+                    audit.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
+                    audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
+                    audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
+                    audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
+                    audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+                    audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
+                    audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
+                });
+
+                entity.HasQueryFilter(e => !e.Audit.IsDeleted);
             });
 
             OnModelCreatingPartial(modelBuilder);
