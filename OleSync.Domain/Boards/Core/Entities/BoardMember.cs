@@ -29,10 +29,10 @@ namespace OleSync.Domain.Boards.Core.Entities
             int? guestId,
             AuditInfo audit)
         {
-            if (employeeId.HasValue && guestId.HasValue)
+            if ((employeeId.HasValue && employeeId.Value > 0) && (guestId.HasValue && guestId.Value > 0))
                 throw new ArgumentException("Board member cannot be both Employee and Guest.");
 
-            if (!employeeId.HasValue && !guestId.HasValue)
+            if ((!employeeId.HasValue || employeeId.Value == 0) && (!guestId.HasValue || guestId.Value == 0))
                 throw new ArgumentException("Board member must reference either Employee or Guest.");
 
             return new BoardMember
