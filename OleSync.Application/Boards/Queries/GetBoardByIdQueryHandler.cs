@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using OleSync.Application.Boards.Requests;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Repositories;
@@ -15,7 +15,7 @@ namespace OleSync.Application.Boards.Queries
 
         public async Task<Board> Handle(GetBoardByIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var board = await _repository.GetByIdAsync(request.Id);
+            var board = await _repository.GetWithMembersAsync(request.Id);
             return board;
         }
     }
