@@ -7,14 +7,9 @@ namespace OleSync.Application.Boards.Dtos
         public int BoardId { get; set; }
         public BoardMemberType MemberType { get; set; }
 
-        // Either link existing person or provide new data
+        // Either link existing person (no inline data)
         public int? EmployeeId { get; set; }
         public int? GuestId { get; set; }
-
-        // New member data (or snapshot)
-        public string FullName { get; set; } = null!;
-        public string? Email { get; set; }
-        public string? Phone { get; set; }
 
         public AuditInfoDto? Audit { get; set; }
     }
@@ -25,9 +20,6 @@ namespace OleSync.Application.Boards.Dtos
         public BoardMemberType MemberType { get; set; }
         public int? EmployeeId { get; set; }
         public int? GuestId { get; set; }
-        public string FullName { get; set; } = null!;
-        public string? Email { get; set; }
-        public string? Phone { get; set; }
         public long CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public long? ModifiedBy { get; set; }

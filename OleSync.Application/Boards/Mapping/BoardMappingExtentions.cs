@@ -69,9 +69,6 @@ namespace OleSync.Application.Boards.Mapping
             return BoardMember.Create(
                 dto.BoardId,
                 dto.MemberType,
-                dto.FullName,
-                dto.Email,
-                dto.Phone,
                 dto.EmployeeId,
                 dto.GuestId,
                 auditInfoDto
@@ -86,9 +83,6 @@ namespace OleSync.Application.Boards.Mapping
                 MemberType = member.MemberType,
                 EmployeeId = member.EmployeeId,
                 GuestId = member.GuestId,
-                FullName = member.FullName,
-                Email = member.Email,
-                Phone = member.Phone,
                 CreatedBy = member.Audit.CreatedBy,
                 CreatedAt = member.Audit.CreatedAt,
                 ModifiedBy = member.Audit.ModifiedBy,

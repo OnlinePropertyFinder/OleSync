@@ -14,10 +14,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public int? EmployeeId { get; private set; }
         public int? GuestId { get; private set; }
 
-        // Denormalized person info for new member data or snapshotting
-        public string FullName { get; private set; } = null!;
-        public string? Email { get; private set; }
-        public string? Phone { get; private set; }
+        // Removing denormalized fields; member source info resides in Employee/Guest
 
         public AuditInfo Audit { get; private set; } = null!;
 
@@ -28,21 +25,15 @@ namespace OleSync.Domain.Boards.Core.Entities
         public static BoardMember Create(
             int boardId,
             BoardMemberType memberType,
-            string fullName,
-            string? email,
-            string? phone,
             int? employeeId,
             int? guestId,
             AuditInfo audit)
         {
-            if (string.IsNullOrWhiteSpace(fullName))
-                throw new ArgumentException("FullName cannot be empty.", nameof(fullName));
-
             if (employeeId.HasValue && guestId.HasValue)
                 throw new ArgumentException("Board member cannot be both Employee and Guest.");
 
-            if (!employeeId.HasValue && !guestId.HasValue && string.IsNullOrWhiteSpace(fullName))
-                throw new ArgumentException("Either an existing person (Employee/Guest) or new member data must be provided.");
+            if (!employeeId.HasValue && !guestId.HasValue)
+                throw new ArgumentException("Board member must reference either Employee or Guest.");
 
             return new BoardMember
             {
@@ -50,26 +41,17 @@ namespace OleSync.Domain.Boards.Core.Entities
                 MemberType = memberType,
                 EmployeeId = employeeId,
                 GuestId = guestId,
-                FullName = fullName,
-                Email = email,
-                Phone = phone,
                 Audit = audit.CreateOnAdd(1)
             };
         }
 
         public void Update(
             BoardMemberType memberType,
-            string fullName,
-            string? email,
-            string? phone,
             int? employeeId,
             int? guestId,
             long modifiedBy)
         {
             MemberType = memberType;
-            FullName = fullName;
-            Email = email;
-            Phone = phone;
             EmployeeId = employeeId;
             GuestId = guestId;
             Audit.SetOnEdit(modifiedBy);
@@ -84,9 +66,6 @@ namespace OleSync.Domain.Boards.Core.Entities
             int id,
             int boardId,
             BoardMemberType memberType,
-            string fullName,
-            string? email,
-            string? phone,
             int? employeeId,
             int? guestId,
             AuditInfo audit)
@@ -96,9 +75,6 @@ namespace OleSync.Domain.Boards.Core.Entities
                 Id = id,
                 BoardId = boardId,
                 MemberType = memberType,
-                FullName = fullName,
-                Email = email,
-                Phone = phone,
                 EmployeeId = employeeId,
                 GuestId = guestId,
                 Audit = audit
