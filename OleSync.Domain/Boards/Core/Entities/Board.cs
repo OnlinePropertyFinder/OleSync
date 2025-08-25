@@ -14,6 +14,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public Status Status { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
         public ICollection<BoardMember> Members { get; private set; } = new List<BoardMember>();
+        public ICollection<Committee> Committees { get; private set; } = new List<Committee>();
 
         public static Board Create(
             string name,
@@ -86,20 +87,18 @@ namespace OleSync.Domain.Boards.Core.Entities
                 EndDate = endDate,
                 Status = status,
                 Audit = auditInfo,
-                Members = new List<BoardMember>()
+                Members = new List<BoardMember>(),
+                Committees = new List<Committee>()
             };
         }
 
         public BoardMember AddMember(
             BoardMemberType memberType,
-            string fullName,
-            string? email,
-            string? phone,
             int? employeeId,
             int? guestId,
             AuditInfo audit)
         {
-            var member = BoardMember.Create(Id, memberType, fullName, email, phone, employeeId, guestId, audit);
+            var member = BoardMember.Create(Id, memberType, employeeId, guestId, audit);
             Members.Add(member);
             return member;
         }
