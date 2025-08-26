@@ -40,6 +40,8 @@ namespace OleSync.Application.Boards.Dtos
         public string FullName { get; set; } = null!;
         public string? Email { get; set; }
         public string? Phone { get; set; }
+        public string? Position { get; set; }
+        public MemberRole? Role { get; set; }
         public long CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public long? ModifiedBy { get; set; }
