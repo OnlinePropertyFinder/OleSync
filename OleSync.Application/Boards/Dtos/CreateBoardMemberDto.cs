@@ -1,4 +1,4 @@
-﻿using OleSync.Domain.Shared.Enums;
+using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Boards.Dtos
 {
@@ -6,9 +6,9 @@ namespace OleSync.Application.Boards.Dtos
     {
         public int? EmployeeId { get; set; }
         public int? GuestId { get; set; }
-        public string FullName { get; set; } = null!;
-        public string Email { get; set; } = null!;
-        public string Phone { get; set; } = null!;
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
+        public string? Phone { get; set; }
         public string? Position { get; set; } = null!;
         public MemberType MemberType { get; set; }
         public MemberRole Role { get; set; }
