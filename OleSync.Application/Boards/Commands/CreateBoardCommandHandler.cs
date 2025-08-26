@@ -32,8 +32,8 @@ namespace OleSync.Application.Boards.Commands
             {
                 foreach (var memberDto in request.Board.Members)
                 {
-                    int? employeeId = memberDto.EmployeeId;
-                    int? guestId = memberDto.GuestId;
+                    int? employeeId = Normalize(memberDto.EmployeeId);
+                    int? guestId = Normalize(memberDto.GuestId);
 
                     // If no EmployeeId/GuestId and new guest details provided, create Guest
                     if (!employeeId.HasValue && !guestId.HasValue)
@@ -66,5 +66,7 @@ namespace OleSync.Application.Boards.Commands
 
             return board.Id;
         }
+
+        private static int? Normalize(int? id) => id.HasValue && id.Value == 0 ? null : id;
     }
 }

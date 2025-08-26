@@ -11,12 +11,14 @@ namespace OleSync.API.Validators.BoardValidator
             RuleFor(x => x.MemberType).IsInEnum();
 
             RuleFor(x => new { x.EmployeeId, x.GuestId })
-                .Must(ids => !(ids.EmployeeId.HasValue && ids.GuestId.HasValue))
+                .Must(ids => !(Normalize(ids.EmployeeId).HasValue && Normalize(ids.GuestId).HasValue))
                 .WithMessage("Member cannot be both Employee and Guest");
 
             RuleFor(x => new { x.EmployeeId, x.GuestId })
-                .Must(ids => ids.EmployeeId.HasValue || ids.GuestId.HasValue)
+                .Must(ids => Normalize(ids.EmployeeId).HasValue || Normalize(ids.GuestId).HasValue)
                 .WithMessage("Either EmployeeId or GuestId must be provided");
+
+            static int? Normalize(int? id) => id.HasValue && id.Value == 0 ? null : id;
         }
     }
 }
