@@ -1,10 +1,10 @@
-﻿using MediatR;
-using OleSync.Domain.Boards.Core.Entities;
+using MediatR;
+using OleSync.Application.Boards.Dtos;
 
 namespace OleSync.Application.Boards.Requests
 {
-    public class GetBoardByIdQueryRequest : IRequest<Board>
-    {
-        public int Id { get; set; }
-    }
+	public class GetBoardByIdQueryRequest : IRequest<BoardDetailDto>
+	{
+		public int Id { get; set; }
+	}
 }

@@ -90,5 +90,26 @@ namespace OleSync.Application.Boards.Mapping
                 ModifiedAt = member.Audit.ModifiedAt
             };
         }
+
+        public static BoardDetailDto ToDetailDto(this Board board)
+        {
+            return new BoardDetailDto
+            {
+                Id = board.Id,
+                Name = board.Name,
+                Purpose = board.Purpose,
+                BoardType = board.BoardType,
+                StartDate = board.StartDate,
+                EndDate = board.EndDate,
+                Status = board.Status,
+                CreatedBy = board.Audit.CreatedBy,
+                CreatedAt = board.Audit.CreatedAt,
+                ModifiedBy = board.Audit.ModifiedBy,
+                ModifiedAt = board.Audit.ModifiedAt,
+                DeletedBy = board.Audit.DeletedBy,
+                DeletedAt = board.Audit.DeletedAt,
+                Members = board.Members?.Select(m => m.ToListDto()).ToList() ?? new List<BoardMemberListDto>()
+            };
+        }
     }
 }

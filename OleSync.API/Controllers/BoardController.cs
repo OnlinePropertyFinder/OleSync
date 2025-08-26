@@ -138,13 +138,13 @@ namespace OleSync.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<WebResponse<Board>> GetById(int id)
+        public async Task<WebResponse<BoardDetailDto>> GetById(int id)
         {
             try
             {
                 if (id == 0)
                 {
-                    return new WebResponse<Board>("Invalid id provided.", HttpStatusCode.BadRequest);
+                    return new WebResponse<BoardDetailDto>("Invalid id provided.", HttpStatusCode.BadRequest);
                 }
 
                 var request = new GetBoardByIdQueryRequest { Id = id };
@@ -152,14 +152,14 @@ namespace OleSync.API.Controllers
 
                 if (result == null)
                 {
-                    return new WebResponse<Board>($"Board with id {id} not found.", HttpStatusCode.NotFound);
+                    return new WebResponse<BoardDetailDto>($"Board with id {id} not found.", HttpStatusCode.NotFound);
                 }
 
-                return new WebResponse<Board>(result);
+                return new WebResponse<BoardDetailDto>(result);
             }
             catch (Exception ex)
             {
-                return new WebResponse<Board>($"An error occurred while retrieving the board: {ex.Message}", HttpStatusCode.InternalServerError);
+                return new WebResponse<BoardDetailDto>($"An error occurred while retrieving the board: {ex.Message}", HttpStatusCode.InternalServerError);
             }
         }
 
