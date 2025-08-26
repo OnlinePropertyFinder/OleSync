@@ -6,6 +6,7 @@ using System.Reflection;
 using OleSync.Application.Boards.Requests;
 using OleSync.API.Validators.BoardValidator;
 using OleSync.Infrastructure.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +27,16 @@ builder.Services.AddMediatR(cfg =>
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+    // Enable annotations if using Swashbuckle.AspNetCore.Annotations
+    c.EnableAnnotations();
+
+    // Add schema filters if needed
+    //c.SchemaFilter<UserDefaultSchemaFilter>();
+}); builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBoardDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateBoardDtoValidator>();

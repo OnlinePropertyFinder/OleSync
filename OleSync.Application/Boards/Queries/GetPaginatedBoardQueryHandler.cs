@@ -21,23 +21,30 @@ namespace OleSync.Application.Boards.Queries
         public async Task<PaginatedResult<BoardListDto>> Handle(GetPaginatedBoardQueryRequest request, CancellationToken cancellationToken)
         {
             Expression<Func<Board, bool>> expression = x => true;
+            IQueryable<Board> query = _repository.FilterBy(expression);
 
             if (!string.IsNullOrWhiteSpace(request.Criteria.FilterText))
-                expression = x => x.Name.Contains(request.Criteria.FilterText) || x.Purpose.Contains(request.Criteria.FilterText);
+                query = query.Where(x => x.Name.Contains(request.Criteria.FilterText));
 
-            var query = _repository.FilterBy(expression);
+            if (request.Criteria.Status != null)
+                query = query.Where(x => x.Status == request.Criteria.Status);
+
+            if (request.Criteria.BoardType != null)
+                query = query.Where(x => x.BoardType == request.Criteria.BoardType);
+
+            var totalCount = await query.CountAsync(cancellationToken);
 
             var pagedItems = await query
                 .Skip((request.Criteria.PageNumber - 1) * request.Criteria.PageSize)
                 .Take(request.Criteria.PageSize)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             var boardList = pagedItems.Select(b => b.ToListDto()).ToList();
 
             var paginatedResult = new PaginatedResult<BoardListDto>
             {
                 Items = boardList,
-                TotalCount = query.Count(),
+                TotalCount = totalCount,
                 PageNumber = request.Criteria.PageNumber,
                 PageSize = request.Criteria.PageSize
             };

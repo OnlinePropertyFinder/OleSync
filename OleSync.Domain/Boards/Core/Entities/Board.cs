@@ -13,8 +13,8 @@ namespace OleSync.Domain.Boards.Core.Entities
         public DateTime? EndDate { get; private set; }
         public Status Status { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
-        public ICollection<BoardMember> Members { get; private set; } = new List<BoardMember>();
-        public ICollection<Committee> Committees { get; private set; } = new List<Committee>();
+        public ICollection<BoardMember> Members { get; private set; } = [];
+        public ICollection<Committee> Committees { get; private set; } = [];
 
         public static Board Create(
             string name,
