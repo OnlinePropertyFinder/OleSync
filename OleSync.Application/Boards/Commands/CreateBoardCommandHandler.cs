@@ -36,15 +36,16 @@ namespace OleSync.Application.Boards.Commands
                     int? guestId = memberDto.GuestId;
 
                     // If no EmployeeId/GuestId and new guest details provided, create Guest
-                    if (!employeeId.HasValue && !guestId.HasValue && !string.IsNullOrWhiteSpace(memberDto.FullName))
+                    if (!employeeId.HasValue && !guestId.HasValue)
                     {
+                        // Ensure required fields are present per validator; create guest
                         var audit = AuditInfo.CreateEmpty();
                         var guest = Guest.Create(
                             memberDto.FullName!,
-                            memberDto.Email ?? string.Empty,
-                            memberDto.Phone ?? string.Empty,
-                            position: null,
-                            role: MemberRole.Member,
+                            memberDto.Email!,
+                            memberDto.Phone!,
+                            position: memberDto.Position,
+                            role: memberDto.Role,
                             memberType: memberDto.MemberType,
                             audit: audit);
 
