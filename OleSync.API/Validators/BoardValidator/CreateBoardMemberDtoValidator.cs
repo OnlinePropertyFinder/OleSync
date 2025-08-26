@@ -8,11 +8,11 @@ namespace OleSync.API.Validators.BoardValidator
 		public CreateBoardMemberDtoValidator()
 		{
 			RuleFor(x => new { x.EmployeeId, x.GuestId })
-				.Must(ids => !(ids.EmployeeId.HasValue && ids.GuestId.HasValue))
+				.Must(ids => !(Normalize(ids.EmployeeId).HasValue && Normalize(ids.GuestId).HasValue))
 				.WithMessage("Member cannot be both Employee and Guest");
 
 			// If neither EmployeeId nor GuestId provided, then require fields to create Guest
-			When(x => !x.EmployeeId.HasValue && !x.GuestId.HasValue, () =>
+			When(x => !Normalize(x.EmployeeId).HasValue && !Normalize(x.GuestId).HasValue, () =>
 			{
 				RuleFor(x => x.FullName)
 					.NotEmpty().WithMessage("FullName is required when not linking Employee or Guest");
@@ -25,6 +25,8 @@ namespace OleSync.API.Validators.BoardValidator
 				RuleFor(x => x.MemberType)
 					.IsInEnum().WithMessage("MemberType is required and must be valid");
 			});
+
+			static int? Normalize(int? id) => id.HasValue && id.Value == 0 ? null : id;
 		}
 	}
 }
