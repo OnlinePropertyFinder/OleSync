@@ -2,6 +2,7 @@ using OleSync.Application.Boards.Dtos;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Application.Utilities;
+using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Boards.Mapping
 {
@@ -78,12 +79,24 @@ namespace OleSync.Application.Boards.Mapping
 
         public static BoardMemberListDto ToListDto(this BoardMember member)
         {
+            var fullName = member.Employee != null ? member.Employee.FullName : member.Guest != null ? member.Guest.FullName : string.Empty;
+            var email = member.Employee != null ? member.Employee.Email : member.Guest != null ? member.Guest.Email : null;
+            var phone = member.Employee != null ? member.Employee.Phone : member.Guest != null ? member.Guest.Phone : null;
+            var position = member.Employee != null ? member.Employee.Position : member.Guest != null ? member.Guest.Position : null;
+            var role = member.Employee != null ? (MemberRole?)member.Employee.Role : member.Guest != null ? (MemberRole?)member.Guest.Role : null;
+            var memberType = member.Employee != null ? member.Employee.MemberType : member.Guest != null ? member.Guest.MemberType : member.MemberType;
+
             return new BoardMemberListDto
             {
                 Id = member.Id,
-                MemberType = member.MemberType,
+                MemberType = memberType,
                 EmployeeId = member.EmployeeId,
                 GuestId = member.GuestId,
+                FullName = fullName,
+                Email = email,
+                Phone = phone,
+                Position = position,
+                Role = role,
                 CreatedBy = member.Audit.CreatedBy,
                 CreatedAt = member.Audit.CreatedAt,
                 ModifiedBy = member.Audit.ModifiedBy,
