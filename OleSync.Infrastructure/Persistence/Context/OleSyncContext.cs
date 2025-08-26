@@ -75,7 +75,8 @@ namespace OleSync.Infrastructure.Persistence.Context
 						.HasColumnName("ModifiedAt");
 
 					audit.Property(a => a.IsDeleted)
-						.HasDefaultValue(false);
+                        .HasColumnName("IsDeleted")
+                        .HasDefaultValue(false);
 					
 					audit.Property(a => a.DeletedBy)
 						.HasColumnName("DeletedBy");
@@ -127,7 +128,7 @@ namespace OleSync.Infrastructure.Persistence.Context
 					audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
 					audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
 					audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
-					audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+					audit.Property(a => a.IsDeleted).HasColumnName("IsDeleted").HasDefaultValue(false);
 					audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
 					audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
 				});
@@ -166,7 +167,7 @@ namespace OleSync.Infrastructure.Persistence.Context
 					audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
 					audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
 					audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
-					audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+					audit.Property(a => a.IsDeleted).HasColumnName("IsDeleted").HasDefaultValue(false);
 					audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
 					audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
 				});
@@ -192,7 +193,7 @@ namespace OleSync.Infrastructure.Persistence.Context
 					audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
 					audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
 					audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
-					audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+					audit.Property(a => a.IsDeleted).HasColumnName("IsDeleted").HasDefaultValue(false);
 					audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
 					audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
 				});
@@ -213,7 +214,7 @@ namespace OleSync.Infrastructure.Persistence.Context
 					audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
 					audit.Property(a => a.ModifiedBy).HasColumnName("ModifiedBy");
 					audit.Property(a => a.ModifiedAt).HasColumnType("datetime").HasColumnName("ModifiedAt");
-					audit.Property(a => a.IsDeleted).HasDefaultValue(false);
+					audit.Property(a => a.IsDeleted).HasColumnName("IsDeleted").HasDefaultValue(false);
 					audit.Property(a => a.DeletedBy).HasColumnName("DeletedBy");
 					audit.Property(a => a.DeletedAt).HasColumnType("datetime").HasColumnName("DeletedAt");
 				});
