@@ -71,7 +71,8 @@ namespace OleSync.API.Controllers
 
                 var command = new UpdateBoardCommandRequest
                 {
-                    Board = boardDto
+                    Board = boardDto,
+                    UserId = 1
                 };
 
                 var result = await _mediator.Send(command);
