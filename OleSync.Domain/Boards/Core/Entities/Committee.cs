@@ -28,6 +28,10 @@ namespace OleSync.Domain.Boards.Core.Entities
         // Many-to-many navigation to Boards
         public ICollection<Board> Boards { get; private set; } = new List<Board>();
 
+        // One-to-many navigation to Committee members and meetings
+        public ICollection<CommitteeMember> Members { get; private set; } = new List<CommitteeMember>();
+        public ICollection<CommitteeMeeting> Meetings { get; private set; } = new List<CommitteeMeeting>();
+
         public static Committee Create(string name, string? purpose, AuditInfo audit)
         {
             if (string.IsNullOrWhiteSpace(name))
