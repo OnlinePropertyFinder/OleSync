@@ -1,4 +1,5 @@
 using OleSync.Domain.Boards.Core.ValueObjects;
+using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Domain.Boards.Core.Entities
 {
@@ -6,7 +7,22 @@ namespace OleSync.Domain.Boards.Core.Entities
     {
         public int Id { get; private set; }
         public string Name { get; private set; } = null!;
-        public string? Purpose { get; private set; }
+        public string? Description { get; private set; }
+        public bool IsLinkedToBoard { get; private set; }
+        public DateTime? StartDate { get; private set; }
+        public DateTime? EndDate { get; private set; }
+        public Status Status { get; private set; }
+        public CommitteeType  CommitteeType { get; private set; }
+        public string? DocumentUrl { get; private set; }
+
+        // Voting Feilds
+        public QuorumPercentage QuorumPercentage { get; private set; }
+        public VotingMethod VotingMethod { get; private set; }
+        public MakeDecisionsPercentage MakeDecisionsPercentage { get; private set; }
+        public TieBreaker TieBreaker { get; private set; }
+        public AdditionalVotingOption AdditionalVotingOption { get; private set; }
+        public int VotingPeriodInMinutes { get; private set; }
+
         public AuditInfo Audit { get; private set; } = null!;
 
         // Many-to-many navigation to Boards
@@ -20,7 +36,7 @@ namespace OleSync.Domain.Boards.Core.Entities
             return new Committee
             {
                 Name = name,
-                Purpose = purpose,
+                Description = purpose,
                 Audit = audit.CreateOnAdd(1)
             };
         }
@@ -28,7 +44,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public void Update(string name, string? purpose, long modifiedBy)
         {
             Name = name;
-            Purpose = purpose;
+            Description = purpose;
             Audit.SetOnEdit(modifiedBy);
         }
 
@@ -43,7 +59,7 @@ namespace OleSync.Domain.Boards.Core.Entities
             {
                 Id = id,
                 Name = name,
-                Purpose = purpose,
+                Description = purpose,
                 Audit = audit
             };
         }

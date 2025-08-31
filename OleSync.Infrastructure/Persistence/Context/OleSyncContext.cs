@@ -206,9 +206,15 @@ namespace OleSync.Infrastructure.Persistence.Context
 				entity.HasKey(e => e.Id);
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
-				entity.Property(e => e.Purpose).HasMaxLength(500);
+				entity.Property(e => e.Description).HasMaxLength(500);
+                entity.Property(e => e.CommitteeType);
+                entity.Property(e => e.IsLinkedToBoard).HasDefaultValue(false);
+                entity.Property(e => e.StartDate).HasColumnType("date");
+                entity.Property(e => e.EndDate).HasColumnType("date");
+                entity.Property(e => e.Status).HasDefaultValue(Status.Draft);
+                entity.Property(e => e.DocumentUrl).HasMaxLength(500);
 
-				entity.OwnsOne(e => e.Audit, audit =>
+                entity.OwnsOne(e => e.Audit, audit =>
 				{
 					audit.Property(a => a.CreatedBy).HasColumnName("CreatedBy");
 					audit.Property(a => a.CreatedAt).HasColumnType("datetime").HasColumnName("CreatedAt");
