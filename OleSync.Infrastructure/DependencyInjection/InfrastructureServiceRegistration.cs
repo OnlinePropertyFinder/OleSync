@@ -1,4 +1,4 @@
-﻿using AutoMapper.Extensions.ExpressionMapping;
+using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +33,7 @@ namespace OleSync.Infrastructure.DependencyInjection
 
             #region Repository registrations
             services.AddScoped<IBoardRepository, BoardRepository>();
+            services.AddScoped<ICommitteeRepository, CommitteeRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IGuestRepository, GuestRepository>();
             #endregion

@@ -1,4 +1,5 @@
 using OleSync.API.Validators.BoardValidator;
+using OleSync.API.Validators.CommitteeValidator;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OleSync.Infrastructure.Persistence.Context;
@@ -41,6 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddValidatorsFromAssemblyContaining<CreateBoardDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateBoardDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<AddBoardMemberDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCommitteeDtoValidator>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
