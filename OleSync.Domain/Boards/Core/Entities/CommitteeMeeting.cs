@@ -1,4 +1,4 @@
-﻿using OleSync.Domain.Shared.Enums;
+using OleSync.Domain.Shared.Enums;
 using System.Text.Json.Serialization;
 
 namespace OleSync.Domain.Boards.Core.Entities
@@ -14,5 +14,24 @@ namespace OleSync.Domain.Boards.Core.Entities
         public int CommitteeId { get; private set; }
         [JsonIgnore]
         public Committee Committee { get; private set; } = null!;
+
+		public static CommitteeMeeting Create(
+			int committeeId,
+			string name,
+			MeetingType meetingType,
+			DateTime date,
+			TimeSpan time,
+			string? address)
+		{
+			return new CommitteeMeeting
+			{
+				CommitteeId = committeeId,
+				Name = name,
+				MeetingType = meetingType,
+				Date = date,
+				Time = time,
+				Address = address
+			};
+		}
     }
 }

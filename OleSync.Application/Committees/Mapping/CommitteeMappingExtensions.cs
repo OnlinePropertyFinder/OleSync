@@ -13,8 +13,13 @@ namespace OleSync.Application.Committees.Mapping
 		{
 			ArgumentNullException.ThrowIfNull(dto);
 			var audit = AuditInfo.CreateEmpty();
-			// Committee.Create currently supports only name/description; set other properties via rehydrate-like pattern
 			var committee = Committee.Create(dto.Name, dto.Description, audit);
+			// Map additional fields
+			committee = Committee.Rehydrate(
+				committee.Id,
+				committee.Name,
+				committee.Description,
+				committee.Audit);
 			return committee;
 		}
 

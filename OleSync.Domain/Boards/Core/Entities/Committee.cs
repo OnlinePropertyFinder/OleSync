@@ -67,5 +67,29 @@ namespace OleSync.Domain.Boards.Core.Entities
                 Audit = audit
             };
         }
+
+        public CommitteeMember AddMember(
+            MemberType memberType,
+            CommitteeMemberRole role,
+            int? employeeId,
+            int? guestId,
+            AuditInfo audit)
+        {
+            var member = CommitteeMember.Create(Id, memberType, role, employeeId, guestId, audit);
+            Members.Add(member);
+            return member;
+        }
+
+        public CommitteeMeeting AddMeeting(
+            string name,
+            MeetingType meetingType,
+            DateTime date,
+            TimeSpan time,
+            string? address)
+        {
+            var meeting = CommitteeMeeting.Create(Id, name, meetingType, date, time, address);
+            Meetings.Add(meeting);
+            return meeting;
+        }
     }
 }
