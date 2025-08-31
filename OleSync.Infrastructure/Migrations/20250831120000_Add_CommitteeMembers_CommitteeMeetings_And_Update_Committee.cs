@@ -8,8 +8,6 @@ using OleSync.Infrastructure.Persistence.Context;
 namespace OleSync.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    [DbContext(typeof(OleSyncContext))]
-    [Migration("20250831120000_Add_CommitteeMembers_CommitteeMeetings_And_Update_Committee")]
     public partial class Add_CommitteeMembers_CommitteeMeetings_And_Update_Committee : Migration
     {
         /// <inheritdoc />
