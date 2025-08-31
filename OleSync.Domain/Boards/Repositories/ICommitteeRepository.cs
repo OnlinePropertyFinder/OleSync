@@ -11,6 +11,7 @@ namespace OleSync.Domain.Boards.Repositories
 		Task UpdateAsync(Committee committee);
 		Task AddMemberAsync(CommitteeMember member);
 		Task AddMeetingAsync(CommitteeMeeting meeting);
+		Task<Committee?> GetWithMembersAndMeetingsAsync(int id);
 		Task<IEnumerable<Committee>> FilterByAsync(Expression<Func<Committee, bool>> filter);
 		IQueryable<Committee> FilterBy(Expression<Func<Committee, bool>> filter);
 		Task DeleteAsync(int id, long userId);
