@@ -74,6 +74,20 @@ namespace OleSync.Infrastructure.Boards
 			_context.Committees.Update(committee);
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task AddMemberAsync(CommitteeMember member)
+		{
+			ArgumentNullException.ThrowIfNull(member);
+			_context.CommitteeMembers.Add(member);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task AddMeetingAsync(CommitteeMeeting meeting)
+		{
+			ArgumentNullException.ThrowIfNull(meeting);
+			_context.CommitteeMeetings.Add(meeting);
+			await _context.SaveChangesAsync();
+		}
 	}
 }
 

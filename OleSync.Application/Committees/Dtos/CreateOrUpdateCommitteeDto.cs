@@ -21,6 +21,10 @@ namespace OleSync.Application.Committees.Dtos
 		public TieBreaker TieBreaker { get; set; }
 		public AdditionalVotingOption AdditionalVotingOption { get; set; }
 		public int VotingPeriodInMinutes { get; set; }
+
+		// Nested create
+		public List<CreateCommitteeMemberDto>? Members { get; set; }
+		public List<CreateCommitteeMeetingDto>? Meetings { get; set; }
 	}
 }
 
