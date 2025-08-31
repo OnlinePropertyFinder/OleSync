@@ -6,7 +6,6 @@ using OleSync.Application.Boards.Criterias;
 using OleSync.Application.Boards.Dtos;
 using OleSync.Application.Boards.Requests;
 using OleSync.Application.Utilities;
-using OleSync.Domain.Boards.Core.Entities;
 using System.Net;
 
 namespace OleSync.API.Controllers
