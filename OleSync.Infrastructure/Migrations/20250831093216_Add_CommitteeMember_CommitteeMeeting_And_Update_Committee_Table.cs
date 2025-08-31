@@ -1,27 +1,48 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore;
-using OleSync.Infrastructure.Persistence.Context;
 
 #nullable disable
 
 namespace OleSync.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_CommitteeMembers_CommitteeMeetings_And_Update_Committee : Migration
+    public partial class Add_CommitteeMember_CommitteeMeeting_And_Update_Committee_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Rename column Purpose -> Description if it exists (from earlier schema)
-            // Note: EF migrations do not support conditional existence checks directly.
-            // This assumes the initial Committees table used 'Purpose' column.
             migrationBuilder.RenameColumn(
                 name: "Purpose",
                 table: "Committees",
-                newName: "Description");
+                newName: "DocumentUrl");
 
-            // Add new Committee columns
+            migrationBuilder.AddColumn<int>(
+                name: "AdditionalVotingOption",
+                table: "Committees",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<int>(
+                name: "CommitteeType",
+                table: "Committees",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Description",
+                table: "Committees",
+                type: "nvarchar(500)",
+                maxLength: 500,
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "EndDate",
+                table: "Committees",
+                type: "date",
+                nullable: true);
+
             migrationBuilder.AddColumn<bool>(
                 name: "IsLinkedToBoard",
                 table: "Committees",
@@ -30,20 +51,21 @@ namespace OleSync.Infrastructure.Migrations
                 defaultValue: false);
 
             migrationBuilder.AddColumn<int>(
-                name: "CommitteeType",
+                name: "MakeDecisionsPercentage",
                 table: "Committees",
                 type: "int",
                 nullable: false,
-                defaultValue: 1);
+                defaultValue: 0);
+
+            migrationBuilder.AddColumn<int>(
+                name: "QuorumPercentage",
+                table: "Committees",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "StartDate",
-                table: "Committees",
-                type: "date",
-                nullable: true);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "EndDate",
                 table: "Committees",
                 type: "date",
                 nullable: true);
@@ -55,47 +77,19 @@ namespace OleSync.Infrastructure.Migrations
                 nullable: false,
                 defaultValue: 1);
 
-            migrationBuilder.AddColumn<string>(
-                name: "DocumentUrl",
-                table: "Committees",
-                type: "nvarchar(500)",
-                maxLength: 500,
-                nullable: true);
-
             migrationBuilder.AddColumn<int>(
-                name: "QuorumPercentage",
+                name: "TieBreaker",
                 table: "Committees",
                 type: "int",
                 nullable: false,
-                defaultValue: 1);
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "VotingMethod",
                 table: "Committees",
                 type: "int",
                 nullable: false,
-                defaultValue: 1);
-
-            migrationBuilder.AddColumn<int>(
-                name: "MakeDecisionsPercentage",
-                table: "Committees",
-                type: "int",
-                nullable: false,
-                defaultValue: 1);
-
-            migrationBuilder.AddColumn<int>(
-                name: "TieBreaker",
-                table: "Committees",
-                type: "int",
-                nullable: false,
-                defaultValue: 1);
-
-            migrationBuilder.AddColumn<int>(
-                name: "AdditionalVotingOption",
-                table: "Committees",
-                type: "int",
-                nullable: false,
-                defaultValue: 1);
+                defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "VotingPeriodInMinutes",
@@ -104,7 +98,30 @@ namespace OleSync.Infrastructure.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            // Create CommitteeMembers
+            migrationBuilder.CreateTable(
+                name: "CommitteeMeetings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    MeetingType = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "date", nullable: false),
+                    Time = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    CommitteeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommitteeMeetings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CommitteeMeetings_Committees_CommitteeId",
+                        column: x => x.CommitteeId,
+                        principalTable: "Committees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateTable(
                 name: "CommitteeMembers",
                 columns: table => new
@@ -148,39 +165,24 @@ namespace OleSync.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CommitteeMeetings_CommitteeId",
+                table: "CommitteeMeetings",
+                column: "CommitteeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CommitteeMembers_CommitteeId_EmployeeId_GuestId",
                 table: "CommitteeMembers",
                 columns: new[] { "CommitteeId", "EmployeeId", "GuestId" });
 
-            // Create CommitteeMeetings
-            migrationBuilder.CreateTable(
-                name: "CommitteeMeetings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    MeetingType = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "date", nullable: false),
-                    Time = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    CommitteeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CommitteeMeetings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CommitteeMeetings_Committees_CommitteeId",
-                        column: x => x.CommitteeId,
-                        principalTable: "Committees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_CommitteeMembers_EmployeeId",
+                table: "CommitteeMembers",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CommitteeMeetings_CommitteeId",
-                table: "CommitteeMeetings",
-                column: "CommitteeId");
+                name: "IX_CommitteeMembers_GuestId",
+                table: "CommitteeMembers",
+                column: "GuestId");
         }
 
         /// <inheritdoc />
@@ -201,7 +203,7 @@ namespace OleSync.Infrastructure.Migrations
                 table: "Committees");
 
             migrationBuilder.DropColumn(
-                name: "DocumentUrl",
+                name: "Description",
                 table: "Committees");
 
             migrationBuilder.DropColumn(
@@ -241,10 +243,9 @@ namespace OleSync.Infrastructure.Migrations
                 table: "Committees");
 
             migrationBuilder.RenameColumn(
-                name: "Description",
+                name: "DocumentUrl",
                 table: "Committees",
                 newName: "Purpose");
         }
     }
 }
-

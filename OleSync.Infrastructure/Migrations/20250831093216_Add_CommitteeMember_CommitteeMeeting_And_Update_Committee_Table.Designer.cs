@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OleSync.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using OleSync.Infrastructure.Persistence.Context;
 namespace OleSync.Infrastructure.Migrations
 {
     [DbContext(typeof(OleSyncContext))]
-    partial class OleSyncContextModelSnapshot : ModelSnapshot
+    [Migration("20250831093216_Add_CommitteeMember_CommitteeMeeting_And_Update_Committee_Table")]
+    partial class Add_CommitteeMember_CommitteeMeeting_And_Update_Committee_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
