@@ -45,5 +45,20 @@ namespace OleSync.Infrastructure.People
             _context.Guests.Add(guest);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Guest?> GetByIdAsync(int id)
+        {
+            var guest = await _context.Guests.FindAsync(id);
+            if (guest == null)
+                return null;
+            return guest;
+        }
+
+        public async Task UpdateAsync(Guest guest)
+        {
+            ArgumentNullException.ThrowIfNull(guest);
+            _context.Guests.Update(guest);
+            await _context.SaveChangesAsync();
+        }
     }
 }
