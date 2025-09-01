@@ -8,5 +8,7 @@ namespace OleSync.Domain.People.Repositories
         Task<IEnumerable<Guest>> FilterByAsync(Expression<Func<Guest, bool>> filter);
         IQueryable<Guest> FilterBy(Expression<Func<Guest, bool>> filter);
         Task AddAsync(Guest guest);
+        Task<Guest?> GetByIdAsync(int id);
+        Task UpdateAsync(Guest guest);
     }
 }

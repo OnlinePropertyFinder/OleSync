@@ -16,7 +16,7 @@ namespace OleSync.Application.Committees.Queries
 
 		public async Task<CommitteeDetailDto?> Handle(GetCommitteeByIdQueryRequest request, CancellationToken cancellationToken)
 		{
-			var committee = await _repository.GetByIdNotTrackedAsync(request.Id);
+			var committee = await _repository.GetWithMembersAndMeetingsAsync(request.Id);
 			return committee?.ToDetailDto();
 		}
 	}

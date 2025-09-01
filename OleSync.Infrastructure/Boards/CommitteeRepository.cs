@@ -68,6 +68,19 @@ namespace OleSync.Infrastructure.Boards
 			return committee;
 		}
 
+		public async Task<Committee?> GetWithMembersAndMeetingsAsync(int id)
+		{
+			var committee = await _context.Committees
+				.Include(c => c.Members)
+					.ThenInclude(m => m.Employee)
+				.Include(c => c.Members)
+					.ThenInclude(m => m.Guest)
+				.Include(c => c.Meetings)
+				.AsNoTracking()
+				.FirstOrDefaultAsync(c => c.Id == id);
+			return committee;
+		}
+
 		public async Task UpdateAsync(Committee committee)
 		{
 			ArgumentNullException.ThrowIfNull(committee);
