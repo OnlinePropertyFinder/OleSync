@@ -28,6 +28,8 @@ namespace OleSync.Application.Committees.Dtos
 		public DateTime? ModifiedAt { get; set; }
 		public long? DeletedBy { get; set; }
 		public DateTime? DeletedAt { get; set; }
+		public List<CommitteeMemberListDto> Members { get; set; } = new();
+		public List<CommitteeMeetingListDto> Meetings { get; set; } = new();
 	}
 }
 
