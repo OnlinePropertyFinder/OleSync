@@ -1,5 +1,6 @@
 using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Domain.Shared.Enums;
+using System;
 
 namespace OleSync.Domain.Boards.Core.Entities
 {
@@ -32,7 +33,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public ICollection<CommitteeMember> Members { get; private set; } = new List<CommitteeMember>();
         public ICollection<CommitteeMeeting> Meetings { get; private set; } = new List<CommitteeMeeting>();
 
-        public static Committee Create(string name, string? purpose, AuditInfo audit)
+        public static Committee Create(string name, string? purpose,bool isLinkedToBoard , DateTime startDate, DateTime endDate , Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, VotingMethod votingMethod, MakeDecisionsPercentage makeDecisionsPercentage, TieBreaker tieBreaker, AdditionalVotingOption additionalVotingOption,int votingPeriodInMinutes, AuditInfo audit)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty.", nameof(name));
@@ -41,14 +42,37 @@ namespace OleSync.Domain.Boards.Core.Entities
             {
                 Name = name,
                 Description = purpose,
-                Audit = audit.CreateOnAdd(1)
+                Audit = audit.CreateOnAdd(1),
+                IsLinkedToBoard = isLinkedToBoard,
+                StartDate = startDate,
+                EndDate = endDate,
+                Status = status,
+                CommitteeType = committeeType,
+                QuorumPercentage = quorumPercentage,
+                VotingMethod = votingMethod,
+                MakeDecisionsPercentage = makeDecisionsPercentage,
+                TieBreaker = tieBreaker,
+                AdditionalVotingOption  = additionalVotingOption,
+                VotingPeriodInMinutes = votingPeriodInMinutes
             };
+
         }
 
-        public void Update(string name, string? purpose, long modifiedBy)
+        public void Update(string name, string? purpose, long modifiedBy , bool isLinkedToBoard, DateTime startDate, DateTime endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, VotingMethod votingMethod, MakeDecisionsPercentage makeDecisionsPercentage, TieBreaker tieBreaker, AdditionalVotingOption additionalVotingOption, int votingPeriodInMinutes)
         {
             Name = name;
             Description = purpose;
+            IsLinkedToBoard = isLinkedToBoard;
+            StartDate = startDate;
+            EndDate = endDate;
+            Status = status;
+            CommitteeType = committeeType;
+            QuorumPercentage = quorumPercentage;
+            VotingMethod = votingMethod;
+            MakeDecisionsPercentage = makeDecisionsPercentage;
+            TieBreaker = tieBreaker;
+            AdditionalVotingOption = additionalVotingOption;
+            VotingPeriodInMinutes = votingPeriodInMinutes;
             Audit.SetOnEdit(modifiedBy);
         }
 

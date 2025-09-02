@@ -14,13 +14,10 @@ namespace OleSync.Application.Committees.Mapping
 		{
 			ArgumentNullException.ThrowIfNull(dto);
 			var audit = AuditInfo.CreateEmpty();
-			var committee = Committee.Create(dto.Name, dto.Description, audit);
+			var committee = Committee.Create(dto.Name, dto.Description , dto.IsLinkedToBoard , dto.StartDate , dto.EndDate ,dto.Status
+				,dto.CommitteeType , dto.QuorumPercentage , dto.VotingMethod , dto.MakeDecisionsPercentage, dto.TieBreaker, dto.AdditionalVotingOption , dto.VotingPeriodInMinutes,audit);
 			// Map additional fields
-			committee = Committee.Rehydrate(
-				committee.Id,
-				committee.Name,
-				committee.Description,
-				committee.Audit);
+			
 			return committee;
 		}
 
@@ -28,7 +25,7 @@ namespace OleSync.Application.Committees.Mapping
 		{
 			ArgumentNullException.ThrowIfNull(committee);
 			ArgumentNullException.ThrowIfNull(dto);
-			committee.Update(dto.Name, dto.Description, modifiedBy);
+			committee.Update(dto.Name, dto.Description, modifiedBy ,dto.IsLinkedToBoard , dto.StartDate , dto.EndDate , dto.Status , dto.CommitteeType , dto.QuorumPercentage , dto.VotingMethod , dto.MakeDecisionsPercentage , dto.TieBreaker , dto.AdditionalVotingOption , dto.VotingPeriodInMinutes);
 		}
 
 		public static CommitteeListDto ToListDto(this Committee committee)

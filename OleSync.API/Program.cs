@@ -18,6 +18,16 @@ builder.Services.AddDbContext<OleSyncContext>(options =>
 // Infrastructure Layer
 InfrastructureServiceRegistration.AddInfrastructureServices(builder.Services, builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") // Angular dev server
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 // Register MediatR
 builder.Services.AddMediatR(cfg =>
 {
@@ -58,6 +68,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngular");
 
 app.UseAuthorization();
 

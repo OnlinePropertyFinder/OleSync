@@ -20,7 +20,7 @@ namespace OleSync.Application.Committees.Queries
 
 		public async Task<PaginatedResult<CommitteeListDto>> Handle(GetPaginatedCommitteesQueryRequest request, CancellationToken cancellationToken)
 		{
-			Expression<Func<Committee, bool>> expression = x => true;
+			Expression<Func<Committee, bool>> expression = x => !x.Audit.IsDeleted;
 			IQueryable<Committee> query = _repository.FilterBy(expression);
 
 			if (!string.IsNullOrWhiteSpace(request.Criteria.FilterText))

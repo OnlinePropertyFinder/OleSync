@@ -4,6 +4,7 @@ namespace OleSync.Application.Committees.Dtos
 {
 	public class CreateCommitteeMeetingDto
 	{
+		public int? Id;
 		public string Name { get; set; } = null!;
 		public MeetingType MeetingType { get; set; }
 		public DateTime Date { get; set; }

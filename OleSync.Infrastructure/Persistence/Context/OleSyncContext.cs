@@ -205,7 +205,9 @@ namespace OleSync.Infrastructure.Persistence.Context
 			{
 				entity.ToTable("Committees");
 
-				entity.HasKey(e => e.Id);
+                entity.HasQueryFilter(b => !b.Audit.IsDeleted);
+
+                entity.HasKey(e => e.Id);
 				entity.Property(e => e.Id).ValueGeneratedOnAdd();
 				entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
 				entity.Property(e => e.Description).HasMaxLength(500);
