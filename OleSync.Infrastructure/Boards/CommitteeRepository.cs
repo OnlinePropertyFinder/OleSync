@@ -81,7 +81,7 @@ namespace OleSync.Infrastructure.Boards
 			return committee;
 		}
 
-		public async Task UpdateAsync(Committee committee)
+        public async Task UpdateAsync(Committee committee)
 		{
 			ArgumentNullException.ThrowIfNull(committee);
 			_context.Committees.Update(committee);
@@ -101,6 +101,12 @@ namespace OleSync.Infrastructure.Boards
 			_context.CommitteeMeetings.Add(meeting);
 			await _context.SaveChangesAsync();
 		}
-	}
-}
 
+        public async Task<IEnumerable<Committee>> GetUnLinkedCommitteesAsync()
+        {
+            var query = _context.Committees
+                .Select(c => c);
+            return query;
+        }
+    }
+}
