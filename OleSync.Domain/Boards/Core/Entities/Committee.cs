@@ -18,11 +18,11 @@ namespace OleSync.Domain.Boards.Core.Entities
 
         // Voting Feilds
         public QuorumPercentage QuorumPercentage { get; private set; }
-        public VotingMethod VotingMethod { get; private set; }
-        public MakeDecisionsPercentage MakeDecisionsPercentage { get; private set; }
-        public TieBreaker TieBreaker { get; private set; }
-        public AdditionalVotingOption AdditionalVotingOption { get; private set; }
-        public int VotingPeriodInMinutes { get; private set; }
+        //public VotingMethod VotingMethod { get; private set; }
+        //public MakeDecisionsPercentage MakeDecisionsPercentage { get; private set; }
+        //public TieBreaker TieBreaker { get; private set; }
+        //public AdditionalVotingOption AdditionalVotingOption { get; private set; }
+        //public int VotingPeriodInMinutes { get; private set; }
 
         public AuditInfo Audit { get; private set; } = null!;
 
@@ -33,7 +33,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public ICollection<CommitteeMember> Members { get; private set; } = new List<CommitteeMember>();
         public ICollection<CommitteeMeeting> Meetings { get; private set; } = new List<CommitteeMeeting>();
 
-        public static Committee Create(string name, string? purpose,bool isLinkedToBoard , DateTime startDate, DateTime endDate , Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, VotingMethod votingMethod, MakeDecisionsPercentage makeDecisionsPercentage, TieBreaker tieBreaker, AdditionalVotingOption additionalVotingOption,int votingPeriodInMinutes, AuditInfo audit)
+        public static Committee Create(string name, string? purpose,bool isLinkedToBoard , DateTime? startDate, DateTime? endDate , Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, AuditInfo audit)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty.", nameof(name));
@@ -48,17 +48,12 @@ namespace OleSync.Domain.Boards.Core.Entities
                 EndDate = endDate,
                 Status = status,
                 CommitteeType = committeeType,
-                QuorumPercentage = quorumPercentage,
-                VotingMethod = votingMethod,
-                MakeDecisionsPercentage = makeDecisionsPercentage,
-                TieBreaker = tieBreaker,
-                AdditionalVotingOption  = additionalVotingOption,
-                VotingPeriodInMinutes = votingPeriodInMinutes
+                QuorumPercentage = quorumPercentage
             };
 
         }
 
-        public void Update(string name, string? purpose, long modifiedBy , bool isLinkedToBoard, DateTime startDate, DateTime endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, VotingMethod votingMethod, MakeDecisionsPercentage makeDecisionsPercentage, TieBreaker tieBreaker, AdditionalVotingOption additionalVotingOption, int votingPeriodInMinutes)
+        public void Update(string name, string? purpose, long modifiedBy , bool isLinkedToBoard, DateTime? startDate, DateTime? endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage)
         {
             Name = name;
             Description = purpose;
@@ -68,11 +63,6 @@ namespace OleSync.Domain.Boards.Core.Entities
             Status = status;
             CommitteeType = committeeType;
             QuorumPercentage = quorumPercentage;
-            VotingMethod = votingMethod;
-            MakeDecisionsPercentage = makeDecisionsPercentage;
-            TieBreaker = tieBreaker;
-            AdditionalVotingOption = additionalVotingOption;
-            VotingPeriodInMinutes = votingPeriodInMinutes;
             Audit.SetOnEdit(modifiedBy);
         }
 
