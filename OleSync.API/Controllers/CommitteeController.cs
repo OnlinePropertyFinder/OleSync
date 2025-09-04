@@ -138,6 +138,23 @@ namespace OleSync.API.Controllers
 				return new WebResponse<CommitteeDetailDto>($"An error occurred while retrieving the committee: {ex.Message}", HttpStatusCode.InternalServerError);
 			}
 		}
+
+		[HttpGet("unlinked")]
+		public async Task<WebResponse<List<CommitteLookupDto>>> GetUnLinkedCommittes()
+		{
+            try
+            {
+                var request = new GetCommitteesLookupQueryRequest();
+                var result = await _mediator.Send(request);
+                if (result == null || !result.Any())
+                    return new WebResponse<List<CommitteLookupDto>>($"No committees found.", HttpStatusCode.NotFound);
+
+                return new WebResponse<List<CommitteLookupDto>>(result);
+            }
+            catch (Exception ex)
+            {
+                return new WebResponse<List<CommitteLookupDto>>($"An error occurred while retrieving the committees : {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
 	}
 }
-

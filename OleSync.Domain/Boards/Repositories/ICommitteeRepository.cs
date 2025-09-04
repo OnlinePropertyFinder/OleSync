@@ -15,6 +15,7 @@ namespace OleSync.Domain.Boards.Repositories
 		Task<IEnumerable<Committee>> FilterByAsync(Expression<Func<Committee, bool>> filter);
 		IQueryable<Committee> FilterBy(Expression<Func<Committee, bool>> filter);
 		Task DeleteAsync(int id, long userId);
-	}
-}
+		Task<IEnumerable<Committee>> GetUnLinkedCommitteesAsync();
 
+    }
+}

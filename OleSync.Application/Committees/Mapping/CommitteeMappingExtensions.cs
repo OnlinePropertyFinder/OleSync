@@ -81,7 +81,7 @@ namespace OleSync.Application.Committees.Mapping
 			};
 		}
 
-		public static CommitteeMemberListDto ToCommitteeMemberListDto(this CommitteeMember member)
+        public static CommitteeMemberListDto ToCommitteeMemberListDto(this CommitteeMember member)
 		{
 			var fullName = member.Employee != null ? member.Employee.FullName : member.Guest != null ? member.Guest.FullName : string.Empty;
 			var email = member.Employee != null ? member.Employee.Email : member.Guest != null ? member.Guest.Email : null;
@@ -118,6 +118,15 @@ namespace OleSync.Application.Committees.Mapping
 				Address = meeting.Address
 			};
 		}
-	}
+
+        public static CommitteLookupDto ToLookupDto(this Committee committee)
+        {
+            return new CommitteLookupDto
+            {
+                Id = committee.Id,
+                Name = committee.Name
+            };
+        }
+    }
 }
 
