@@ -66,6 +66,11 @@ namespace OleSync.Domain.Boards.Core.Entities
             Audit.SetOnEdit(modifiedBy);
         }
 
+        public void UploadFile(string documentUrl)
+        {
+            DocumentUrl = documentUrl;
+        }
+
         public void MarkAsDeleted(long deletedBy)
         {
             Audit.SetOnDelete(deletedBy);

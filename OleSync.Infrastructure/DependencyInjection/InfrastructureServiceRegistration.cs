@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OleSync.Domain.Boards.Repositories;
 using OleSync.Domain.People.Repositories;
+using OleSync.Domain.Shared.Services;
 using OleSync.Infrastructure.Boards;
 using OleSync.Infrastructure.People;
 using OleSync.Infrastructure.Persistence.Context;
@@ -36,6 +37,7 @@ namespace OleSync.Infrastructure.DependencyInjection
             services.AddScoped<ICommitteeRepository, CommitteeRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IGuestRepository, GuestRepository>();
+            services.AddScoped<IFileService, FileService>();
             #endregion
 
             return services;
