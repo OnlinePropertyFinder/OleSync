@@ -163,9 +163,9 @@ namespace OleSync.API.Controllers
 			try
 			{
                 if (id == 0)
-                    return new WebResponse<CommitteeDetailDto>("Invalid id provided.", HttpStatusCode.BadRequest);
+                    return new WebResponse<bool>("Invalid id provided.", HttpStatusCode.BadRequest);
                 if (file == null || file.Length == 0)
-                    return new WebResponse<CommitteeDetailDto>("No file uploaded.", HttpStatusCode.BadRequest);
+                    return new WebResponse<bool>("No file uploaded.", HttpStatusCode.BadRequest);
 
                 var command = new UploadCommitteeFileCommandRequest
                 {

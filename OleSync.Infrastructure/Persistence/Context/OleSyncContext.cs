@@ -59,8 +59,11 @@ namespace OleSync.Infrastructure.Persistence.Context
 				entity.Property(e => e.Status)
 					.HasDefaultValue(Status.Draft);
 
-				// Configure AuditInfo as a complex type (owned entity)
-				entity.OwnsOne(e => e.Audit, audit =>
+				entity.Property(e => e.DocumentUrl)
+					.HasMaxLength(500);
+
+                // Configure AuditInfo as a complex type (owned entity)
+                entity.OwnsOne(e => e.Audit, audit =>
 				{
 					audit.Property(a => a.CreatedBy)
 						.HasColumnName("CreatedBy"); // Optional: specify column name

@@ -12,6 +12,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
         public Status Status { get; private set; }
+        public string? DocumentUrl { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
         public ICollection<BoardMember> Members { get; private set; } = [];
         public ICollection<Committee> Committees { get; private set; } = [];
@@ -60,6 +61,11 @@ namespace OleSync.Domain.Boards.Core.Entities
             EndDate = endDate;
             Status = status;
             Audit.SetOnEdit(modifiedBy);
+        }
+
+        public void UploadFile(string documentUrl)
+        {
+            DocumentUrl = documentUrl;
         }
 
         public void MarkAsDeleted(long deletedBy)

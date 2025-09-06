@@ -8,4 +8,3 @@ namespace OleSync.Application.Committees.Requests
 		public int Id { get; set; }
 	}
 }
-

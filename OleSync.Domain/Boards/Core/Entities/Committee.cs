@@ -1,6 +1,5 @@
 using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Domain.Shared.Enums;
-using System;
 
 namespace OleSync.Domain.Boards.Core.Entities
 {
