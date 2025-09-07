@@ -3,6 +3,7 @@ using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Application.Utilities;
 using OleSync.Domain.Shared.Enums;
+using OleSync.Application.Committees.Dtos;
 
 namespace OleSync.Application.Boards.Mapping
 {
@@ -122,6 +123,15 @@ namespace OleSync.Application.Boards.Mapping
                 DeletedBy = board.Audit.DeletedBy,
                 DeletedAt = board.Audit.DeletedAt,
                 Members = board.Members?.Select(m => m.ToListDto()).ToList() ?? new List<BoardMemberListDto>()
+            };
+        }
+
+        public static BoardLookupDto ToLookupDto(this Board board)
+        {
+            return new BoardLookupDto
+            {
+                Id = board.Id,
+                Name = board.Name
             };
         }
     }

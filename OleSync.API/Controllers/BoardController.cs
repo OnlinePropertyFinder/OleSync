@@ -250,5 +250,23 @@ namespace OleSync.API.Controllers
                 return new WebResponse<bool>($"An error occurred while unlinking committee from board: {ex.Message}", HttpStatusCode.InternalServerError);
             }
         }
+
+        [HttpGet("lookup")]
+        public async Task<WebResponse<List<BoardLookupDto>>> Lookup()
+        {
+            try
+            {
+                var request = new GetBoardsLookupQueryRequest();
+                var result = await _mediator.Send(request);
+                if (result == null || !result.Any())
+                    return new WebResponse<List<BoardLookupDto>>($"No boards found.", HttpStatusCode.NotFound);
+
+                return new WebResponse<List<BoardLookupDto>>(result);
+            }
+            catch (Exception ex)
+            {
+                return new WebResponse<List<BoardLookupDto>>($"An error occurred while retrieving the boards : {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }

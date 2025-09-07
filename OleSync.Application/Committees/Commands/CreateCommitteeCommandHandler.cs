@@ -5,7 +5,6 @@ using OleSync.Domain.Boards.Repositories;
 using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Domain.People.Repositories;
 using OleSync.Domain.People.Core.Entities;
-using System.Linq;
 
 namespace OleSync.Application.Committees.Commands
 {
@@ -92,4 +91,3 @@ namespace OleSync.Application.Committees.Commands
 		}
 	}
 }
-
