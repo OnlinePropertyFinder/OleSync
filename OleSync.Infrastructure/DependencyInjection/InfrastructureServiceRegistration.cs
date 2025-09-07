@@ -6,6 +6,7 @@ using OleSync.Domain.Boards.Repositories;
 using OleSync.Domain.People.Repositories;
 using OleSync.Domain.Shared.Services;
 using OleSync.Infrastructure.Boards;
+using OleSync.Infrastructure.Committees;
 using OleSync.Infrastructure.People;
 using OleSync.Infrastructure.Persistence.Context;
 using System.Reflection;
@@ -34,6 +35,7 @@ namespace OleSync.Infrastructure.DependencyInjection
 
             #region Repository registrations
             services.AddScoped<IBoardRepository, BoardRepository>();
+            services.AddScoped<IBoardCommitteeRepository, BoardCommitteeRepository>();
             services.AddScoped<ICommitteeRepository, CommitteeRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IGuestRepository, GuestRepository>();

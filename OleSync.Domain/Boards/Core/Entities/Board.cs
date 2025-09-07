@@ -15,7 +15,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public string? DocumentUrl { get; private set; }
         public AuditInfo Audit { get; private set; } = null!;
         public ICollection<BoardMember> Members { get; private set; } = [];
-        public ICollection<Committee> Committees { get; private set; } = [];
+        public virtual ICollection<BoardCommittee> BoardCommittees { get; private set; } = [];
 
         public static Board Create(
             string name,
@@ -94,7 +94,7 @@ namespace OleSync.Domain.Boards.Core.Entities
                 Status = status,
                 Audit = auditInfo,
                 Members = new List<BoardMember>(),
-                Committees = new List<Committee>()
+                BoardCommittees = new List<BoardCommittee>()
             };
         }
 

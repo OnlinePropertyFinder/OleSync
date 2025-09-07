@@ -5,7 +5,7 @@ using OleSync.Domain.Boards.Repositories;
 using OleSync.Infrastructure.Persistence.Context;
 using System.Linq.Expressions;
 
-namespace OleSync.Infrastructure.Boards
+namespace OleSync.Infrastructure.Committees
 {
     public class CommitteeRepository : ICommitteeRepository
     {

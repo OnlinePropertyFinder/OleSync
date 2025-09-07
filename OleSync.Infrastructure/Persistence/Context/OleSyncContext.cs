@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Shared.Enums;
 using OleSync.Domain.People.Core.Entities;
-using OleSync.Domain.Boards.Core.ValueObjects;
 
 namespace OleSync.Infrastructure.Persistence.Context
 {
@@ -20,8 +19,9 @@ namespace OleSync.Infrastructure.Persistence.Context
 		public virtual DbSet<Committee> Committees { get; set; }
 		public virtual DbSet<CommitteeMember> CommitteeMembers { get; set; }
 		public virtual DbSet<CommitteeMeeting> CommitteeMeetings { get; set; }
+        public virtual DbSet<BoardCommittee> BoardCommittees { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			if (!optionsBuilder.IsConfigured)
 			{
@@ -96,23 +96,11 @@ namespace OleSync.Infrastructure.Persistence.Context
 					  .HasForeignKey(m => m.BoardId)
 					  .OnDelete(DeleteBehavior.Cascade);
 
-				// Many-to-many: Board <-> Committee via join table BoardCommittees
-				entity.HasMany(e => e.Committees)
-					  .WithMany(c => c.Boards)
-					  .UsingEntity<Dictionary<string, object>>(
-						  "BoardCommittees",
-						  j => j
-							  .HasOne<Committee>()
-							  .WithMany()
-							  .HasForeignKey("CommitteeId")
-							  .OnDelete(DeleteBehavior.Cascade),
-						  j => j
-							  .HasOne<Board>()
-							  .WithMany()
-							  .HasForeignKey("BoardId")
-							  .OnDelete(DeleteBehavior.Cascade))
-					  .ToTable("BoardCommittees");
-			});
+                entity.HasMany(e => e.BoardCommittees)
+					  .WithOne(bc => bc.Board)
+					  .HasForeignKey(bc => bc.BoardId)
+					  .OnDelete(DeleteBehavior.Cascade);
+            });
 
 			modelBuilder.Entity<BoardMember>(entity =>
 			{
@@ -244,7 +232,12 @@ namespace OleSync.Infrastructure.Persistence.Context
 					.WithOne(m => m.Committee)
 					.HasForeignKey(m => m.CommitteeId)
 					.OnDelete(DeleteBehavior.Cascade);
-			});
+
+                entity.HasMany(e => e.BoardCommittees)
+					.WithOne(bc => bc.Committee)
+					.HasForeignKey(bc => bc.CommitteeId)
+					.OnDelete(DeleteBehavior.Cascade);
+            });
 
 			modelBuilder.Entity<CommitteeMember>(entity =>
 			{
@@ -296,7 +289,25 @@ namespace OleSync.Infrastructure.Persistence.Context
 				entity.Property(e => e.Address).HasMaxLength(500);
 			});
 
-			OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Entity<BoardCommittee>(entity =>
+            {
+                entity.ToTable("BoardCommittees");
+
+                entity.HasKey(bc => new { bc.BoardId, bc.CommitteeId });
+
+                // Configure relationships
+                entity.HasOne(bc => bc.Board)
+                      .WithMany(b => b.BoardCommittees)
+                      .HasForeignKey(bc => bc.BoardId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(bc => bc.Committee)
+                      .WithMany(c => c.BoardCommittees)
+                      .HasForeignKey(bc => bc.CommitteeId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            OnModelCreatingPartial(modelBuilder);
 		}
 
 		partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

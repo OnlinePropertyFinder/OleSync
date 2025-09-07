@@ -12,7 +12,7 @@ namespace OleSync.Domain.Boards.Core.Entities
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
         public Status Status { get; private set; }
-        public CommitteeType  CommitteeType { get; private set; }
+        public CommitteeType CommitteeType { get; private set; }
         public string? DocumentUrl { get; private set; }
 
         // Voting Feilds
@@ -29,10 +29,11 @@ namespace OleSync.Domain.Boards.Core.Entities
         public ICollection<Board> Boards { get; private set; } = new List<Board>();
 
         // One-to-many navigation to Committee members and meetings
-        public ICollection<CommitteeMember> Members { get; private set; } = new List<CommitteeMember>();
-        public ICollection<CommitteeMeeting> Meetings { get; private set; } = new List<CommitteeMeeting>();
+        public ICollection<CommitteeMember> Members { get; private set; } = [];
+        public ICollection<CommitteeMeeting> Meetings { get; private set; } = [];
+        public virtual ICollection<BoardCommittee> BoardCommittees { get; set; } = [];
 
-        public static Committee Create(string name, string? purpose,bool isLinkedToBoard , DateTime? startDate, DateTime? endDate , Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, AuditInfo audit)
+        public static Committee Create(string name, string? purpose, bool isLinkedToBoard, DateTime? startDate, DateTime? endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, AuditInfo audit)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty.", nameof(name));
@@ -52,7 +53,7 @@ namespace OleSync.Domain.Boards.Core.Entities
 
         }
 
-        public void Update(string name, string? purpose, long modifiedBy , bool isLinkedToBoard, DateTime? startDate, DateTime? endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage)
+        public void Update(string name, string? purpose, long modifiedBy, bool isLinkedToBoard, DateTime? startDate, DateTime? endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage)
         {
             Name = name;
             Description = purpose;

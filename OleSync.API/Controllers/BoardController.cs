@@ -225,5 +225,30 @@ namespace OleSync.API.Controllers
                 return new WebResponse<bool>($"An error occurred while uploading the file: {ex.Message}", HttpStatusCode.InternalServerError);
             }
         }
+
+        [HttpDelete("{boardId}/unlink-committee/{committeeId}")]
+        public async Task<IActionResult> UnlinkCommitteeFromBoard(int boardId, int committeeId)
+        {
+            try
+            {
+                var command = new UnlinkCommitteeFromBoardCommandRequest
+                {
+                    BoardId = boardId,
+                    CommitteeId = committeeId,
+                };
+
+                var result = await _mediator.Send(command);
+                if (!result)
+                {
+                    return new WebResponse<bool>("Board with id " + boardId + " and committee with id " + committeeId + " not linked or already deleted.", HttpStatusCode.NotFound);
+                }
+
+                return new WebResponse<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                return new WebResponse<bool>($"An error occurred while unlinking committee from board: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }
