@@ -64,6 +64,16 @@ namespace OleSync.Application.Boards.Commands
                 }
             }
 
+            // Process incoming committees if provided
+            if(request.Board.Committees != null && request.Board.Committees.Any())
+            {
+                foreach (var committeeDto in request.Board.Committees)
+                {
+                    var boardCommittee = board.LinkBoardWithCommittee(committeeDto.BoardId, committeeDto.CommitteeId);
+                    await _repository.AddBoardCommitteeAsync(boardCommittee);
+                }
+            }
+
             return board.Id;
         }
 

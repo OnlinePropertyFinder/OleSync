@@ -5,8 +5,6 @@ using OleSync.API.Shared;
 using OleSync.Application.Boards.Criterias;
 using OleSync.Application.Boards.Dtos;
 using OleSync.Application.Boards.Requests;
-using OleSync.Application.Committees.Dtos;
-using OleSync.Application.Committees.Requests;
 using OleSync.Application.Utilities;
 using System.Net;
 

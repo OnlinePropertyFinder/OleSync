@@ -14,8 +14,9 @@ namespace OleSync.Domain.Boards.Repositories
         Task DeleteAsync(int id, long userId);
 
         // Board Members
-        Task<Board?> GetWithMembersAsync(int id);
+        Task<Board?> GetWithMembersAndCommitteesAsync(int id);
         Task AddMemberAsync(BoardMember member);
+        Task AddBoardCommitteeAsync(BoardCommittee committee);
         Task SoftDeleteMemberAsync(int memberId, long userId);
     }
 }

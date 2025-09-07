@@ -12,8 +12,7 @@ namespace OleSync.Application.Boards.Dtos
         public DateTime? EndDate { get; set; }
         public Status Status { get; set; }
         public AuditInfoDto? Audit { get; } = null!;
-
-        // New: Members to create along with board
         public List<CreateBoardMemberDto>? Members { get; set; }
+        public List<CreateBoardCommitteeDto>? Committees { get; set; }
     }
 }

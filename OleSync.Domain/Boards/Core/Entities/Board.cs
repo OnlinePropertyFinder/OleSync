@@ -109,6 +109,15 @@ namespace OleSync.Domain.Boards.Core.Entities
             return member;
         }
 
+        public BoardCommittee LinkBoardWithCommittee(
+            int boardId,
+            int committeeId)
+        {
+            var boardCommittee = BoardCommittee.Create(boardId, committeeId);
+            BoardCommittees.Add(boardCommittee);
+            return boardCommittee;
+        }
+
         public void RemoveMember(int memberId, long deletedBy)
         {
             var member = Members.FirstOrDefault(m => m.Id == memberId);

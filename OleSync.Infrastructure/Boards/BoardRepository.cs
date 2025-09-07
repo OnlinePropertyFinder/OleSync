@@ -85,7 +85,7 @@ namespace OleSync.Infrastructure.Boards
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Board?> GetWithMembersAsync(int id)
+        public async Task<Board?> GetWithMembersAndCommitteesAsync(int id)
         {
             var board = await _context.Boards
                 .Include(b => b.Members)
@@ -93,6 +93,7 @@ namespace OleSync.Infrastructure.Boards
                 .Include(b => b.Members)
                 .ThenInclude(m => m.Guest)
                 .Include(b => b.BoardCommittees)
+                .ThenInclude(c => c.Committee)
                 .FirstOrDefaultAsync(b => b.Id == id);
             return board;
         }
@@ -102,6 +103,14 @@ namespace OleSync.Infrastructure.Boards
             ArgumentNullException.ThrowIfNull(member);
 
             _context.BoardMembers.Add(member);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddBoardCommitteeAsync(BoardCommittee committee)
+        {
+            ArgumentNullException.ThrowIfNull(committee);
+
+            _context.BoardCommittees.Add(committee);
             await _context.SaveChangesAsync();
         }
 
