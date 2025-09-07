@@ -16,11 +16,6 @@ namespace OleSync.Application.Committees.Dtos
 
 		// Voting
 		public QuorumPercentage QuorumPercentage { get; set; }
-		public VotingMethod VotingMethod { get; set; }
-		public MakeDecisionsPercentage MakeDecisionsPercentage { get; set; }
-		public TieBreaker TieBreaker { get; set; }
-		public AdditionalVotingOption AdditionalVotingOption { get; set; }
-		public int VotingPeriodInMinutes { get; set; }
 
 		public long CreatedBy { get; set; }
 		public DateTime CreatedAt { get; set; }

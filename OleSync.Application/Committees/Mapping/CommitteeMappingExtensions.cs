@@ -15,7 +15,7 @@ namespace OleSync.Application.Committees.Mapping
 			ArgumentNullException.ThrowIfNull(dto);
 			var audit = AuditInfo.CreateEmpty();
 			var committee = Committee.Create(dto.Name, dto.Description , dto.IsLinkedToBoard , dto.StartDate , dto.EndDate ,dto.Status
-				,dto.CommitteeType , dto.QuorumPercentage , dto.VotingMethod , dto.MakeDecisionsPercentage, dto.TieBreaker, dto.AdditionalVotingOption , dto.VotingPeriodInMinutes,audit);
+				,dto.CommitteeType , dto.QuorumPercentage, audit);
 			// Map additional fields
 			
 			return committee;
@@ -25,7 +25,7 @@ namespace OleSync.Application.Committees.Mapping
 		{
 			ArgumentNullException.ThrowIfNull(committee);
 			ArgumentNullException.ThrowIfNull(dto);
-			committee.Update(dto.Name, dto.Description, modifiedBy ,dto.IsLinkedToBoard , dto.StartDate , dto.EndDate , dto.Status , dto.CommitteeType , dto.QuorumPercentage , dto.VotingMethod , dto.MakeDecisionsPercentage , dto.TieBreaker , dto.AdditionalVotingOption , dto.VotingPeriodInMinutes);
+			committee.Update(dto.Name, dto.Description, modifiedBy ,dto.IsLinkedToBoard , dto.StartDate , dto.EndDate , dto.Status , dto.CommitteeType , dto.QuorumPercentage);
 		}
 
 		public static CommitteeListDto ToListDto(this Committee committee)
@@ -65,11 +65,6 @@ namespace OleSync.Application.Committees.Mapping
 				CommitteeType = committee.CommitteeType,
 				DocumentUrl = committee.DocumentUrl,
 				QuorumPercentage = committee.QuorumPercentage,
-				VotingMethod = committee.VotingMethod,
-				MakeDecisionsPercentage = committee.MakeDecisionsPercentage,
-				TieBreaker = committee.TieBreaker,
-				AdditionalVotingOption = committee.AdditionalVotingOption,
-				VotingPeriodInMinutes = committee.VotingPeriodInMinutes,
 				CreatedBy = committee.Audit.CreatedBy,
 				CreatedAt = committee.Audit.CreatedAt,
 				ModifiedBy = committee.Audit.ModifiedBy,

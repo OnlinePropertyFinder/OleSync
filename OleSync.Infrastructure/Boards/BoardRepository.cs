@@ -92,7 +92,7 @@ namespace OleSync.Infrastructure.Boards
                 .ThenInclude(m => m.Employee)
                 .Include(b => b.Members)
                 .ThenInclude(m => m.Guest)
-                .Include(b => b.Committees)
+                .Include(b => b.BoardCommittees)
                 .FirstOrDefaultAsync(b => b.Id == id);
             return board;
         }

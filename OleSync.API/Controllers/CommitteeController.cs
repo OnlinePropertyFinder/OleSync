@@ -156,5 +156,33 @@ namespace OleSync.API.Controllers
                 return new WebResponse<List<CommitteLookupDto>>($"An error occurred while retrieving the committees : {ex.Message}", HttpStatusCode.InternalServerError);
             }
         }
-	}
+
+        [HttpPost("{id}/upload-file")]
+        public async Task<IActionResult> UploadFile(int id, IFormFile file)
+        {
+			try
+			{
+                if (id == 0)
+                    return new WebResponse<bool>("Invalid id provided.", HttpStatusCode.BadRequest);
+                if (file == null || file.Length == 0)
+                    return new WebResponse<bool>("No file uploaded.", HttpStatusCode.BadRequest);
+
+                var command = new UploadCommitteeFileCommandRequest
+                {
+                    CommitteeId = id,
+                    File = file
+                };
+
+                var result = await _mediator.Send(command);
+				if (!result)
+					return new WebResponse<bool>($"Committee with id {id} not found.", HttpStatusCode.NotFound);
+
+				return new WebResponse<bool>(true);
+            }
+			catch(Exception ex)
+			{
+                return new WebResponse<bool>($"An error occurred while uploading the file: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
+    }
 }

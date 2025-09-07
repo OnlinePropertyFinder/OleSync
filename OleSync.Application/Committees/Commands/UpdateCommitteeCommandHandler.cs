@@ -46,29 +46,7 @@ namespace OleSync.Application.Committees.Commands
 					}
 				}
 			}
-            //if (request.Committee.Meetings != null && request.Committee.Meetings.Any())
-            //{
-            //    foreach (var meetingDto in request.Committee.Meetings)
-            //    {
-            //        //int? guestId = memberDto.GuestId.HasValue && memberDto.GuestId.Value == 0 ? null : memberDto.GuestId;
-            //        if (guestId.HasValue)
-            //        {
-            //            var guest = await _guestRepository.GetByIdAsync(guestId.Value);
-            //            if (guest != null)
-            //            {
-            //                var fullName = string.IsNullOrWhiteSpace(memberDto.FullName) ? guest.FullName : memberDto.FullName!;
-            //                var email = string.IsNullOrWhiteSpace(memberDto.Email) ? guest.Email : memberDto.Email!;
-            //                var phone = string.IsNullOrWhiteSpace(memberDto.Phone) ? guest.Phone : memberDto.Phone!;
-            //                var position = string.IsNullOrWhiteSpace(memberDto.Position) ? guest.Position : memberDto.Position;
-            //                var role = MapCommitteeRoleToMemberRole(memberDto.Role);
-            //                var memberType = memberDto.MemberType;
 
-            //                guest.Update(fullName, email, phone, position, role, memberType, request.UserId);
-            //                await _guestRepository.UpdateAsync(guest);
-            //            }
-            //        }
-            //    }
-            //}
             await _repository.UpdateAsync(committee);
 			return true;
 		}
@@ -84,4 +62,3 @@ namespace OleSync.Application.Committees.Commands
 		}
 	}
 }
-

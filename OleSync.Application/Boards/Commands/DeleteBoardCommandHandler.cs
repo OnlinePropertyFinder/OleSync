@@ -1,11 +1,6 @@
 ﻿using MediatR;
 using OleSync.Application.Boards.Requests;
 using OleSync.Domain.Boards.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OleSync.Application.Boards.Commands
 {

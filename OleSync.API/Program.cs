@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using OleSync.Infrastructure.Persistence.Context;
 using System.Reflection;
 using OleSync.Application.Boards.Requests;
-using OleSync.API.Validators.BoardValidator;
 using OleSync.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -57,6 +56,11 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateCommitteeDtoValidator
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.Configure<IISServerOptions>(options =>
+{
+    options.AllowSynchronousIO = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -73,5 +77,7 @@ app.UseCors("AllowAngular");
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseStaticFiles(); // This enables serving static files from wwwroot
 
 app.Run();

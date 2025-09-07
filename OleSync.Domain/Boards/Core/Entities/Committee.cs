@@ -1,6 +1,5 @@
 using OleSync.Domain.Boards.Core.ValueObjects;
 using OleSync.Domain.Shared.Enums;
-using System;
 
 namespace OleSync.Domain.Boards.Core.Entities
 {
@@ -13,16 +12,16 @@ namespace OleSync.Domain.Boards.Core.Entities
         public DateTime? StartDate { get; private set; }
         public DateTime? EndDate { get; private set; }
         public Status Status { get; private set; }
-        public CommitteeType  CommitteeType { get; private set; }
+        public CommitteeType CommitteeType { get; private set; }
         public string? DocumentUrl { get; private set; }
 
         // Voting Feilds
         public QuorumPercentage QuorumPercentage { get; private set; }
-        public VotingMethod VotingMethod { get; private set; }
-        public MakeDecisionsPercentage MakeDecisionsPercentage { get; private set; }
-        public TieBreaker TieBreaker { get; private set; }
-        public AdditionalVotingOption AdditionalVotingOption { get; private set; }
-        public int VotingPeriodInMinutes { get; private set; }
+        //public VotingMethod VotingMethod { get; private set; }
+        //public MakeDecisionsPercentage MakeDecisionsPercentage { get; private set; }
+        //public TieBreaker TieBreaker { get; private set; }
+        //public AdditionalVotingOption AdditionalVotingOption { get; private set; }
+        //public int VotingPeriodInMinutes { get; private set; }
 
         public AuditInfo Audit { get; private set; } = null!;
 
@@ -30,10 +29,11 @@ namespace OleSync.Domain.Boards.Core.Entities
         public ICollection<Board> Boards { get; private set; } = new List<Board>();
 
         // One-to-many navigation to Committee members and meetings
-        public ICollection<CommitteeMember> Members { get; private set; } = new List<CommitteeMember>();
-        public ICollection<CommitteeMeeting> Meetings { get; private set; } = new List<CommitteeMeeting>();
+        public ICollection<CommitteeMember> Members { get; private set; } = [];
+        public ICollection<CommitteeMeeting> Meetings { get; private set; } = [];
+        public virtual ICollection<BoardCommittee> BoardCommittees { get; set; } = [];
 
-        public static Committee Create(string name, string? purpose,bool isLinkedToBoard , DateTime startDate, DateTime endDate , Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, VotingMethod votingMethod, MakeDecisionsPercentage makeDecisionsPercentage, TieBreaker tieBreaker, AdditionalVotingOption additionalVotingOption,int votingPeriodInMinutes, AuditInfo audit)
+        public static Committee Create(string name, string? purpose, bool isLinkedToBoard, DateTime? startDate, DateTime? endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, AuditInfo audit)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name cannot be empty.", nameof(name));
@@ -48,17 +48,12 @@ namespace OleSync.Domain.Boards.Core.Entities
                 EndDate = endDate,
                 Status = status,
                 CommitteeType = committeeType,
-                QuorumPercentage = quorumPercentage,
-                VotingMethod = votingMethod,
-                MakeDecisionsPercentage = makeDecisionsPercentage,
-                TieBreaker = tieBreaker,
-                AdditionalVotingOption  = additionalVotingOption,
-                VotingPeriodInMinutes = votingPeriodInMinutes
+                QuorumPercentage = quorumPercentage
             };
 
         }
 
-        public void Update(string name, string? purpose, long modifiedBy , bool isLinkedToBoard, DateTime startDate, DateTime endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage, VotingMethod votingMethod, MakeDecisionsPercentage makeDecisionsPercentage, TieBreaker tieBreaker, AdditionalVotingOption additionalVotingOption, int votingPeriodInMinutes)
+        public void Update(string name, string? purpose, long modifiedBy, bool isLinkedToBoard, DateTime? startDate, DateTime? endDate, Status status, CommitteeType committeeType, QuorumPercentage quorumPercentage)
         {
             Name = name;
             Description = purpose;
@@ -68,12 +63,12 @@ namespace OleSync.Domain.Boards.Core.Entities
             Status = status;
             CommitteeType = committeeType;
             QuorumPercentage = quorumPercentage;
-            VotingMethod = votingMethod;
-            MakeDecisionsPercentage = makeDecisionsPercentage;
-            TieBreaker = tieBreaker;
-            AdditionalVotingOption = additionalVotingOption;
-            VotingPeriodInMinutes = votingPeriodInMinutes;
             Audit.SetOnEdit(modifiedBy);
+        }
+
+        public void UploadFile(string documentUrl)
+        {
+            DocumentUrl = documentUrl;
         }
 
         public void MarkAsDeleted(long deletedBy)

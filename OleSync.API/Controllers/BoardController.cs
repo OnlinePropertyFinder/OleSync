@@ -5,6 +5,8 @@ using OleSync.API.Shared;
 using OleSync.Application.Boards.Criterias;
 using OleSync.Application.Boards.Dtos;
 using OleSync.Application.Boards.Requests;
+using OleSync.Application.Committees.Dtos;
+using OleSync.Application.Committees.Requests;
 using OleSync.Application.Utilities;
 using System.Net;
 
@@ -193,6 +195,59 @@ namespace OleSync.API.Controllers
             catch (Exception ex)
             {
                 return new WebResponse<int>($"An error occurred while adding the member : {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPost("{id}/upload-file")]
+        public async Task<IActionResult> UploadFile(int id, IFormFile file)
+        {
+            try
+            {
+                if (id == 0)
+                    return new WebResponse<bool>("Invalid id provided.", HttpStatusCode.BadRequest);
+                if (file == null || file.Length == 0)
+                    return new WebResponse<bool>("No file uploaded.", HttpStatusCode.BadRequest);
+
+                var command = new UploadBoardFileCommandRequest
+                {
+                    BoardId = id,
+                    File = file
+                };
+
+                var result = await _mediator.Send(command);
+                if (!result)
+                    return new WebResponse<bool>($"Board with id {id} not found.", HttpStatusCode.NotFound);
+
+                return new WebResponse<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                return new WebResponse<bool>($"An error occurred while uploading the file: {ex.Message}", HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpDelete("{boardId}/unlink-committee/{committeeId}")]
+        public async Task<IActionResult> UnlinkCommitteeFromBoard(int boardId, int committeeId)
+        {
+            try
+            {
+                var command = new UnlinkCommitteeFromBoardCommandRequest
+                {
+                    BoardId = boardId,
+                    CommitteeId = committeeId,
+                };
+
+                var result = await _mediator.Send(command);
+                if (!result)
+                {
+                    return new WebResponse<bool>("Board with id " + boardId + " and committee with id " + committeeId + " not linked or already deleted.", HttpStatusCode.NotFound);
+                }
+
+                return new WebResponse<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                return new WebResponse<bool>($"An error occurred while unlinking committee from board: {ex.Message}", HttpStatusCode.InternalServerError);
             }
         }
     }

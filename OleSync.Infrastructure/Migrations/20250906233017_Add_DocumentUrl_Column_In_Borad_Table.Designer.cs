@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OleSync.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using OleSync.Infrastructure.Persistence.Context;
 namespace OleSync.Infrastructure.Migrations
 {
     [DbContext(typeof(OleSyncContext))]
-    partial class OleSyncContextModelSnapshot : ModelSnapshot
+    [Migration("20250906233017_Add_DocumentUrl_Column_In_Borad_Table")]
+    partial class Add_DocumentUrl_Column_In_Borad_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,21 @@ namespace OleSync.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BoardCommittees", b =>
+                {
+                    b.Property<int>("BoardId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CommitteeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BoardId", "CommitteeId");
+
+                    b.HasIndex("CommitteeId");
+
+                    b.ToTable("BoardCommittees", (string)null);
+                });
 
             modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.Board", b =>
                 {
@@ -31,9 +49,6 @@ namespace OleSync.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("BoardType")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CommitteeId")
                         .HasColumnType("int");
 
                     b.Property<string>("DocumentUrl")
@@ -62,24 +77,7 @@ namespace OleSync.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommitteeId");
-
                     b.ToTable("Boards", (string)null);
-                });
-
-            modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.BoardCommittee", b =>
-                {
-                    b.Property<int>("BoardId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommitteeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BoardId", "CommitteeId");
-
-                    b.HasIndex("CommitteeId");
-
-                    b.ToTable("BoardCommittees", (string)null);
                 });
 
             modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.BoardMember", b =>
@@ -307,12 +305,23 @@ namespace OleSync.Infrastructure.Migrations
                     b.ToTable("Guests", (string)null);
                 });
 
+            modelBuilder.Entity("BoardCommittees", b =>
+                {
+                    b.HasOne("OleSync.Domain.Boards.Core.Entities.Board", null)
+                        .WithMany()
+                        .HasForeignKey("BoardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OleSync.Domain.Boards.Core.Entities.Committee", null)
+                        .WithMany()
+                        .HasForeignKey("CommitteeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.Board", b =>
                 {
-                    b.HasOne("OleSync.Domain.Boards.Core.Entities.Committee", null)
-                        .WithMany("Boards")
-                        .HasForeignKey("CommitteeId");
-
                     b.OwnsOne("OleSync.Domain.Boards.Core.ValueObjects.AuditInfo", "Audit", b1 =>
                         {
                             b1.Property<int>("BoardId")
@@ -358,25 +367,6 @@ namespace OleSync.Infrastructure.Migrations
 
                     b.Navigation("Audit")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.BoardCommittee", b =>
-                {
-                    b.HasOne("OleSync.Domain.Boards.Core.Entities.Board", "Board")
-                        .WithMany("BoardCommittees")
-                        .HasForeignKey("BoardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OleSync.Domain.Boards.Core.Entities.Committee", "Committee")
-                        .WithMany("BoardCommittees")
-                        .HasForeignKey("CommitteeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Board");
-
-                    b.Navigation("Committee");
                 });
 
             modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.BoardMember", b =>
@@ -681,17 +671,11 @@ namespace OleSync.Infrastructure.Migrations
 
             modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.Board", b =>
                 {
-                    b.Navigation("BoardCommittees");
-
                     b.Navigation("Members");
                 });
 
             modelBuilder.Entity("OleSync.Domain.Boards.Core.Entities.Committee", b =>
                 {
-                    b.Navigation("BoardCommittees");
-
-                    b.Navigation("Boards");
-
                     b.Navigation("Meetings");
 
                     b.Navigation("Members");

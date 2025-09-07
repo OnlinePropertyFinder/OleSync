@@ -24,4 +24,9 @@
     <ProjectReference Include="..\OleSync.Infrastructure\OleSync.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\committees\" />
+    <Folder Include="wwwroot\boards\" />
+  </ItemGroup>
+
 </Project>
