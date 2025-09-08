@@ -24,7 +24,7 @@ namespace OleSync.Application.Boards.Commands
             ArgumentNullException.ThrowIfNull(request);
 
             // Load with members for proper reconciliation
-            var board = await _repository.GetWithMembersAsync(request.Board.Id) ?? throw new InvalidOperationException($"Board with id {request.Board.Id} not found.");
+            var board = await _repository.GetWithMembersAndCommitteesAsync(request.Board.Id) ?? throw new InvalidOperationException($"Board with id {request.Board.Id} not found.");
 
             // Update board core fields
             board.UpdateFromDto(request.Board, request.UserId);

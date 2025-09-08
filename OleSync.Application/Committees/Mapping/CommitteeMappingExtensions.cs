@@ -1,10 +1,7 @@
 using OleSync.Application.Committees.Dtos;
 using OleSync.Domain.Boards.Core.Entities;
 using OleSync.Domain.Boards.Core.ValueObjects;
-using OleSync.Domain.Shared.Enums;
-using OleSync.Application.Boards.Mapping;
 using OleSync.Application.Utilities;
-using OleSync.Domain.Shared.Enums;
 
 namespace OleSync.Application.Committees.Mapping
 {

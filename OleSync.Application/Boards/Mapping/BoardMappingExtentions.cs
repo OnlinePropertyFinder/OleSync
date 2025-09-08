@@ -104,6 +104,16 @@ namespace OleSync.Application.Boards.Mapping
             };
         }
 
+        public static BoardCommitteeListDto ToListDto(this BoardCommittee committee)
+        {
+            return new BoardCommitteeListDto()
+            {
+                BoardId = committee.BoardId,
+                CommitteeId = committee.CommitteeId,
+                CommitteeName = committee.Committee.Name
+            };
+        }
+
         public static BoardDetailDto ToDetailDto(this Board board)
         {
             return new BoardDetailDto
@@ -121,7 +131,17 @@ namespace OleSync.Application.Boards.Mapping
                 ModifiedAt = board.Audit.ModifiedAt,
                 DeletedBy = board.Audit.DeletedBy,
                 DeletedAt = board.Audit.DeletedAt,
-                Members = board.Members?.Select(m => m.ToListDto()).ToList() ?? new List<BoardMemberListDto>()
+                Members = board.Members?.Select(m => m.ToListDto()).ToList() ?? new List<BoardMemberListDto>(),
+                Committees = board.BoardCommittees?.Select(c => c.ToListDto()).ToList() ?? new List<BoardCommitteeListDto>()
+            };
+        }
+
+        public static BoardLookupDto ToLookupDto(this Board board)
+        {
+            return new BoardLookupDto
+            {
+                Id = board.Id,
+                Name = board.Name
             };
         }
     }

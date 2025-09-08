@@ -106,7 +106,7 @@ namespace OleSync.Infrastructure.Committees
         {
             var query = _context.Committees
                 .Where(c => !c.Audit.IsDeleted)
-                .Where(c => !c.Boards.Any()); // Committees that don't have any boards
+                .Where(c => !c.BoardCommittees.Any());
 
             return await query.ToListAsync();
         }

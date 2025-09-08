@@ -25,9 +25,6 @@ namespace OleSync.Domain.Boards.Core.Entities
 
         public AuditInfo Audit { get; private set; } = null!;
 
-        // Many-to-many navigation to Boards
-        public ICollection<Board> Boards { get; private set; } = new List<Board>();
-
         // One-to-many navigation to Committee members and meetings
         public ICollection<CommitteeMember> Members { get; private set; } = [];
         public ICollection<CommitteeMeeting> Meetings { get; private set; } = [];

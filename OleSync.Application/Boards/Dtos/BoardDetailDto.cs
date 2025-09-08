@@ -20,5 +20,6 @@ namespace OleSync.Application.Boards.Dtos
 		public DateTime? DeletedAt { get; set; }
 
 		public List<BoardMemberListDto> Members { get; set; } = new();
+		public List<BoardCommitteeListDto> Committees { get; set; } = new();
 	}
 }

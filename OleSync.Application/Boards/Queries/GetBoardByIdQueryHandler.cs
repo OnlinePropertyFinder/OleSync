@@ -16,7 +16,7 @@ namespace OleSync.Application.Boards.Queries
 
 		public async Task<BoardDetailDto> Handle(GetBoardByIdQueryRequest request, CancellationToken cancellationToken)
 		{
-			var board = await _repository.GetWithMembersAsync(request.Id);
+			var board = await _repository.GetWithMembersAndCommitteesAsync(request.Id);
 			return board?.ToDetailDto();
 		}
 	}
