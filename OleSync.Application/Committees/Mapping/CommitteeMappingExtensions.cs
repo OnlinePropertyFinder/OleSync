@@ -40,6 +40,7 @@ namespace OleSync.Application.Committees.Mapping
 				CommitteeType = committee.CommitteeType,
 				DocumentUrl = committee.DocumentUrl,
 				CreatedBy = committee.Audit.CreatedBy,
+				MembersCount = 0,
 				CreatedAt = committee.Audit.CreatedAt,
 				ModifiedBy = committee.Audit.ModifiedBy,
 				ModifiedAt = committee.Audit.ModifiedAt,
