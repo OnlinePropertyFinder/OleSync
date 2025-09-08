@@ -16,7 +16,7 @@ namespace OleSync.Application.Boards.Commands
         {
             var boardCommittee = await _repository.GetByBoardAndCommitteeAsync(request.BoardId, request.CommitteeId);
             if (boardCommittee == null)
-                throw new ArgumentException("Board-Committee association not found");
+                return true;//throw new ArgumentException("Board-Committee association not found");
 
             await _repository.DeleteAsync(request.BoardId, request.CommitteeId);
             return true;

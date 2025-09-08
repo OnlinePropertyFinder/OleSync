@@ -69,7 +69,7 @@ namespace OleSync.Application.Boards.Commands
             {
                 foreach (var committeeDto in request.Board.Committees)
                 {
-                    var boardCommittee = board.LinkBoardWithCommittee(committeeDto.BoardId, committeeDto.CommitteeId);
+                    var boardCommittee = board.LinkBoardWithCommittee(committeeDto.BoardId == 0 ? board.Id : committeeDto.BoardId, committeeDto.CommitteeId);
                     await _repository.AddBoardCommitteeAsync(boardCommittee);
                 }
             }

@@ -14,8 +14,9 @@ namespace OleSync.Application.Committees.Dtos
 		public string StatusDescription { get; set; } = null!;
 		public CommitteeType CommitteeType { get; set; }
 		public string? DocumentUrl { get; set; }
+		public int MembersCount { get; set; } = 0;
 
-		public long CreatedBy { get; set; }
+        public long CreatedBy { get; set; }
 		public DateTime CreatedAt { get; set; }
 		public long? ModifiedBy { get; set; }
 		public DateTime? ModifiedAt { get; set; }
